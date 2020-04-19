@@ -4,7 +4,8 @@
     "description": "A small online trading game inspired by Port Royale",
     "main": "server.js",
     "scripts": {
-        "test": "jest"
+        "test": "jest",
+        "start": "nodemon server.js"
     },
     "repository": {
         "type": "git",
