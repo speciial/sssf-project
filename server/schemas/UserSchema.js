@@ -100,6 +100,7 @@ const deleteUser = {
 
 module.exports = {
   users,
+  user,
   addUser,
   modifyUser,
   deleteUser,

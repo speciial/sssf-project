@@ -1,22 +1,16 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Materials from './components/Materials';
-import Users from './components/Users';
+import Materials from "./components/Materials";
+import Users from "./components/Users";
+import Signin from "./components/SignIn";
+import Signup from "./components/SignUp";
 
 class App extends Component {
   state = {};
   render() {
     return (
       <Router>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <div>
           <nav>
             <ul>
@@ -27,7 +21,7 @@ class App extends Component {
                 <Link to="/materials">Materials</Link>
               </li>
               <li>
-                <Link to="/users">Users</Link>
+                <Link to="/user">Profile</Link>
               </li>
             </ul>
           </nav>
@@ -38,8 +32,14 @@ class App extends Component {
             <Route path="/materials">
               <Materials />
             </Route>
-            <Route path="/users">
+            <Route path="/user">
               <Users />
+            </Route>
+            <Route path="/signin">
+              <Signin />
+            </Route>
+            <Route path="/signup">
+              <Signup />
             </Route>
             <Route path="/">
               <Home />
