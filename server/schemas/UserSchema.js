@@ -17,7 +17,8 @@ const userType = new GraphQLObjectType({
   name: "user",
   fields: () => ({
     id: { type: GraphQLID },
-    Name: { type: GraphQLString },
+    FirstName: { type: GraphQLString },
+    LastName: { type: GraphQLString },
     Username: { type: GraphQLString },
     Email: { type: GraphQLString },
     Password: { type: GraphQLString },
@@ -52,7 +53,8 @@ const user = {
 const addUser = {
   type: userType,
   args: {
-    Name: { type: new GraphQLNonNull(GraphQLString) },
+    FirstName: { type: new GraphQLNonNull(GraphQLString) },
+    LastName: { type: new GraphQLNonNull(GraphQLString) },
     Username: { type: new GraphQLNonNull(GraphQLString) },
     Email: { type: new GraphQLNonNull(GraphQLString) },
     Password: { type: new GraphQLNonNull(GraphQLString) },
@@ -70,7 +72,8 @@ const modifyUser = {
   type: userType,
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
-    Name: { type: GraphQLString },
+    FirstName: { type: GraphQLString },
+    LastName: { type: GraphQLString },
     Username: { type: GraphQLString },
     Email: { type: GraphQLString },
     Password: { type: GraphQLString },
