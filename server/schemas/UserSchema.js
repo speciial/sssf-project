@@ -1,6 +1,10 @@
 "use strict";
 
 const UserModel = require("../models/UserModel");
+
+const bcrypt = require("bcrypt");
+const saltRound = 12; //okayish in 2020
+
 const {
   GraphQLObjectType,
   GraphQLID,
@@ -61,7 +65,10 @@ const addUser = {
   },
   resolve: async (parent, args) => {
     try {
-      return await UserModel.create(args);
+      args.Password = await bcrypt.hash(args.Password, saltRound);
+      const newUser = await UserModel.create(args);
+      await delete newUser.Password;
+      return newUser;
     } catch (e) {
       return new Error(e);
     }
