@@ -6,6 +6,8 @@ import { ApolloProvider } from 'react-apollo';
 
 import Materials from './components/Materials';
 import Users from './components/Users';
+import Signin from './components/SignIn';
+import Signup from './components/SignUp';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -35,7 +37,7 @@ class App extends Component {
                   <Link to="/materials">Materials</Link>
                 </li>
                 <li>
-                  <Link to="/users">Users</Link>
+                  <Link to="/user">Profile</Link>
                 </li>
               </ul>
             </nav>
@@ -46,8 +48,14 @@ class App extends Component {
               <Route path="/materials">
                 <Materials />
               </Route>
-              <Route path="/users">
+              <Route path="/user">
                 <Users />
+              </Route>
+              <Route path="/signin">
+                <Signin />
+              </Route>
+              <Route path="/signup">
+                <Signup />
               </Route>
               <Route path="/">
                 <Home />
