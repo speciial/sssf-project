@@ -10,7 +10,7 @@ router.get('/:id', MaterialController.getMaterial);
 
 router.post('/', MaterialController.postMaterial);
 
-router.delete('/', MaterialController.deleteMaterial);
+router.delete('/:id', MaterialController.deleteMaterial);
 
 router.put('/', MaterialController.putMaterial);
 
