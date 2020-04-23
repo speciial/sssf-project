@@ -19,6 +19,31 @@ JWT=[JWT_STRING]
 ```bash
 node server.js
 ``` 
+4. To later see some things in the client you can add some materials by going to your browser and opening http://localhost:3000/graphql. Then simply paste the following mutation and run it.
+```
+mutation{
+  addMaterial(
+    Name: "Trees", 
+    Size: 10, 
+    Weight:10, 
+    Picture: "Trees",
+  	CraftingRecipe: []
+  ) {
+    id
+    Name
+    Size
+    Weight
+    Picture
+    CraftingRecipe{
+      id
+      Material {
+        Name
+      }
+      Quantity
+    }
+  }
+}
+```
 
 ### Client
 1. In a terminal / cmd navigate to the client folder inside the repository and install all dependencies like this:
