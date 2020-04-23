@@ -16,7 +16,6 @@ passport.use(
     async (username, password, done) => {
       try {
         const user = await userController.getUserByUsername(username);
-        console.log(user);
         if (user === undefined) {
           return done(null, false, { message: "Incorrect email." });
         }
