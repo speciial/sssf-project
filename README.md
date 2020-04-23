@@ -21,9 +21,9 @@ node server.js
 ``` 
 
 ### Client
-1. In a terminal / cmd navigate to the server folder inside the repository and install all dependencies like this:
+1. In a terminal / cmd navigate to the client folder inside the repository and install all dependencies like this:
 ```bash
-cd server
+cd client
 npm install
 ```
 2. Now run the client with the following command
