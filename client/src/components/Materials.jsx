@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@material-ui/core';
 
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+
+import MaterialRow from './MaterialRow';
 
 const materialQuery = gql`
   {
@@ -18,6 +22,13 @@ const materialQuery = gql`
       Size
       Weight
       Picture
+      CraftingRecipe {
+        id
+        Material {
+          Name
+        }
+        Quantity
+      }
     }
   }
 `;
@@ -27,6 +38,7 @@ class Materials extends Component {
 
   displayMaterial() {
     const data = this.props.data;
+
     if (data.loading) {
       return (
         <TableRow key={'loading'}>
@@ -40,17 +52,7 @@ class Materials extends Component {
       );
     } else {
       return data.materials.map((material) => {
-        // console.log(material);
-        return (
-          <TableRow key={material.id}>
-            <TableCell component="th" scope="row">
-              {material.Name}
-            </TableCell>
-            <TableCell align="right">{material.Size}</TableCell>
-            <TableCell align="right">{material.Weight}</TableCell>
-            <TableCell align="right">{material.Picture}</TableCell>
-          </TableRow>
-        );
+        return <MaterialRow key={material.id} material={material} />;
       });
     }
   }
