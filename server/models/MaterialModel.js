@@ -7,6 +7,7 @@ const materialSchema = new Schema({
   Size: Number,
   Weight: Number,
   Picture: String,
+  CraftingRecipe: [{ type: Schema.Types.ObjectId, ref: 'MaterialRatio' }],
 });
 
 module.exports = mongoose.model('Material', materialSchema);

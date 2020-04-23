@@ -3,7 +3,7 @@ const MaterialModel = require('../models/MaterialModel');
 
 const getMaterials = async (req, res) => {
   try {
-    const result = await MaterialModel.find();
+    const result = await MaterialModel.find({}).populate('CraftingRecipe');
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,7 +12,9 @@ const getMaterials = async (req, res) => {
 
 const getMaterial = async (req, res) => {
   try {
-    const result = await MaterialModel.findById(req.params.id);
+    const result = await MaterialModel.findById(req.params.id).populate(
+      'CraftingRecipe'
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
