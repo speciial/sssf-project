@@ -6,6 +6,7 @@ const passportJWT = require("passport-jwt");
 const bcrypt = require("bcrypt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
+const errorMessage = "Incorrect username or password.";
 
 passport.use(
   new Strategy(
@@ -16,11 +17,11 @@ passport.use(
     async (username, password, done) => {
       try {
         const user = await userController.getUserByUsername(username);
-        if (user === undefined) {
-          return done(null, false, { message: "Incorrect email." });
+        if (user === null) {
+          return done(null, false, { message: errorMessage });
         }
         if (!(await bcrypt.compare(password, user.Password))) {
-          return done(null, false, { message: "Incorrect password." });
+          return done(null, false, { message: errorMessage });
         }
         //delete user.password;
         const strippedUser = {

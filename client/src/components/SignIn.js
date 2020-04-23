@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Alert from "@material-ui/lab/Alert";
 
 import { isAuth, authUser } from "../utils/Auth";
 
@@ -39,7 +40,13 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [error, setError] = useState();
   const history = useHistory();
+
+  var messages;
+  if (history.location.state) {
+    messages = history.location.state.messages;
+  }
 
   if (isAuth()) {
     history.push("/user");
@@ -66,7 +73,7 @@ const SignIn = () => {
         history.push("/user");
       } else {
         //we are not logged in
-        //error send ?
+        setError(response.message);
       }
     } catch (e) {
       console.log(e);
@@ -86,6 +93,23 @@ const SignIn = () => {
           Sign in
         </Typography>
         <form className={classes.form} noValidate>
+          {error && (
+            <Alert
+              onClose={() => {
+                setError(null);
+              }}
+              severity="error"
+            >
+              {error}
+            </Alert>
+          )}
+          {messages && (
+            <>
+              {messages.map((message) => (
+                <Alert severity="success">{message}</Alert>
+              ))}
+            </>
+          )}
           <TextField
             variant="outlined"
             margin="normal"

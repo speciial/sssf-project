@@ -12,7 +12,7 @@ const login = (req, res) => {
     }
     if (!user) {
       return res.send({
-        message: "Not auth",
+        message: info.message,
         user: user,
       });
     }

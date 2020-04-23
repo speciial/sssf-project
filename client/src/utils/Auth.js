@@ -1,10 +1,15 @@
 const isAuth = () => {
-  const user = localStorage.getItem("user") || sessionStorage.getItem("user");
-  if (user != null) {
-    return true;
-  } else {
+  if (getAuthUser() === null) {
     return false;
+  } else {
+    return true;
   }
+};
+
+const getAuthUser = () => {
+  return JSON.parse(
+    localStorage.getItem("user") || sessionStorage.getItem("user")
+  );
 };
 
 const authUser = (user, token, remember) => {
@@ -26,6 +31,7 @@ const disconnectUser = () => {
 
 module.exports = {
   isAuth,
+  getAuthUser,
   authUser,
   disconnectUser,
 };
