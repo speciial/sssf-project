@@ -1,31 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Typography from "@material-ui/core/Typography";
-import MaterialLink from "@material-ui/core/Link";
-import Box from "@material-ui/core/Box";
+import Typography from '@material-ui/core/Typography';
+import MaterialLink from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
 
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 
-import Materials from "./components/Materials";
-import Users from "./components/Users";
-import Signin from "./components/SignIn";
-import Signup from "./components/SignUp";
+import Materials from './components/Materials';
+import Buildings from './components/Buildings';
+import Users from './components/Users';
+import Signin from './components/SignIn';
+import Signup from './components/SignUp';
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: 'http://localhost:3000/graphql',
 });
 
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+      {'Copyright © '}
       <MaterialLink color="inherit" href="#">
         SSSF Project
-      </MaterialLink>{" "}
+      </MaterialLink>{' '}
       {new Date().getFullYear()}
-      {"."}
+      {'.'}
     </Typography>
   );
 };
@@ -52,6 +53,9 @@ const App = () => {
                 <Link to="/materials">Materials</Link>
               </li>
               <li>
+                <Link to="/buildings">Buildings</Link>
+              </li>
+              <li>
                 <Link to="/user">Profile</Link>
               </li>
             </ul>
@@ -61,6 +65,9 @@ const App = () => {
           <Switch>
             <Route path="/materials">
               <Materials />
+            </Route>
+            <Route path="/buildings">
+              <Buildings />
             </Route>
             <Route path="/user">
               <Users />

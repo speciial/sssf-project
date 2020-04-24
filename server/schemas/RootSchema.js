@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLSchema } = require("graphql");
+const { GraphQLObjectType, GraphQLSchema } = require('graphql');
 
 const {
   users,
@@ -6,7 +6,7 @@ const {
   addUser,
   modifyUser,
   deleteUser,
-} = require("./UserSchema");
+} = require('./UserSchema');
 
 const {
   materials,
@@ -14,19 +14,30 @@ const {
   addMaterial,
   deleteMaterial,
   modifyMaterial,
-} = require("./MaterialSchema");
+} = require('./MaterialSchema');
+
+const {
+  buildings,
+  building,
+  addBuilding,
+  deleteBuilding,
+  modifyBuilding,
+} = require('./BuildingSchema');
 
 const RootQuery = new GraphQLObjectType({
-  name: "RootQueryType",
+  name: 'RootQueryType',
   fields: {
     users,
     user,
     materials,
     material,
+    buildings,
+    building,
   },
 });
+
 const Mutation = new GraphQLObjectType({
-  name: "MutationType",
+  name: 'MutationType',
   fields: {
     addUser,
     modifyUser,
@@ -34,6 +45,9 @@ const Mutation = new GraphQLObjectType({
     addMaterial,
     deleteMaterial,
     modifyMaterial,
+    addBuilding,
+    deleteBuilding,
+    modifyBuilding,
   },
 });
 
@@ -41,3 +55,20 @@ module.exports = new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation,
 });
+
+/*
+{
+  "data": {
+    "materials": [
+      {
+        "id": "5ea19af49cadda35e039c75b",
+        "Name": "Trees"
+      },
+      {
+        "id": "5ea19b169cadda35e039c75d",
+        "Name": "Wood"
+      }
+    ]
+  }
+}
+ */

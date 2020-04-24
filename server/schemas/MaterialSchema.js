@@ -55,16 +55,16 @@ const materialType = new GraphQLObjectType({
 const addMatRatioType = new GraphQLInputObjectType({
   name: 'addMatRatioType',
   fields: () => ({
-    MaterialID: { type: GraphQLID },
-    Quantity: { type: GraphQLInt },
+    MaterialID: { type: new GraphQLNonNull(GraphQLID) },
+    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
   }),
 });
 
 const modifyMatRatioType = new GraphQLInputObjectType({
   name: 'modifyMatRatioType',
   fields: () => ({
-    MaterialID: { type: GraphQLID },
-    Quantity: { type: GraphQLInt },
+    MaterialID: { type: new GraphQLNonNull(GraphQLID) },
+    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
   }),
 });
 
@@ -177,6 +177,10 @@ const modifyMaterial = {
 };
 
 module.exports = {
+  materialType,
+  materialRatioType,
+  addMatRatioType,
+  modifyMatRatioType,
   materials,
   material,
   addMaterial,
