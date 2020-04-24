@@ -11,7 +11,15 @@ const Users = () => {
   } else {
     const user = getAuthUser();
 
-    return <h1>Hello {user.FirstName} !</h1>;
+    return (
+      <div>
+        <h1>Hello {user.FirstName} !</h1>
+        <p>First name : {user.FirstName}</p>
+        <p>Last name : {user.LastName}</p>
+        <p>Username : {user.Username}</p>
+        <p>Email : {user.Email}</p>
+      </div>
+    );
   }
 };
 
