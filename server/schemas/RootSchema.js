@@ -19,6 +19,14 @@ const {
   modifyMaterial,
 } = require("./MaterialSchema");
 
+const {
+  buildings,
+  building,
+  addBuilding,
+  deleteBuilding,
+  modifyBuilding,
+} = require("./BuildingSchema");
+
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -27,8 +35,11 @@ const RootQuery = new GraphQLObjectType({
     materials,
     material,
     userMaterials,
+    buildings,
+    building,
   },
 });
+
 const Mutation = new GraphQLObjectType({
   name: "MutationType",
   fields: {
@@ -40,6 +51,9 @@ const Mutation = new GraphQLObjectType({
     modifyMaterial,
     addMaterialToUser,
     updateUserMaterial,
+    addBuilding,
+    deleteBuilding,
+    modifyBuilding,
   },
 });
 
@@ -47,3 +61,20 @@ module.exports = new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation,
 });
+
+/*
+{
+  "data": {
+    "materials": [
+      {
+        "id": "5ea19af49cadda35e039c75b",
+        "Name": "Trees"
+      },
+      {
+        "id": "5ea19b169cadda35e039c75d",
+        "Name": "Wood"
+      }
+    ]
+  }
+}
+ */
