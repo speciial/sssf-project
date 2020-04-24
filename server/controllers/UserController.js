@@ -2,10 +2,10 @@
 const UserModel = require("../models/UserModel");
 
 const getUserById = async (id) => {
-  return await UserModel.findById(id);
+  return await UserModel.findById(id).select("+Password");
 };
 const getUserByUsername = async (username) => {
-  return await UserModel.findOne({ Username: username });
+  return await UserModel.findOne({ Username: username }).select("+Password");
 };
 
 const getUsers = async (req, res) => {

@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +36,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const addUserMutation = gql`
+  mutation AddUser(
+    $firstName: String!
+    $lastName: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    addUser(
+      FirstName: $firstName
+      LastName: $lastName
+      Username: $username
+      Email: $email
+      Password: $password
+    ) {
+      id
+      FirstName
+      LastName
+      Username
+      Email
+    }
+  }
+`;
+
 const SignUp = () => {
   const classes = useStyles();
   const [username, setUsername] = useState("");
@@ -42,7 +68,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-
+  const [addUser] = useMutation(addUserMutation);
   const [error, setError] = useState();
 
   const history = useHistory();
@@ -52,7 +78,7 @@ const SignUp = () => {
     return re.test(String(email).toLowerCase());
   };
 
-  const submitSignUp = (e) => {
+  const submitSignUp = async (e) => {
     e.preventDefault();
     //TODO : check form + post to server to register
 
@@ -76,6 +102,16 @@ const SignUp = () => {
       setError("Password and password confirmation does not match");
       return;
     }
+
+    await addUser({
+      variables: {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+      },
+    });
 
     history.push("/signin", {
       messages: ["Account registered, you can now signin !"],
