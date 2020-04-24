@@ -17,7 +17,7 @@ JWT=[JWT_STRING]
 ```
 3. Now in the terminal run the server like this
 ```bash
-node server.js
+npm start
 ``` 
 4. To later see some things in the client you can add some materials by going to your browser and opening http://localhost:3000/graphql. Then simply paste the following mutation and run it.
 ```
@@ -44,6 +44,7 @@ mutation{
   }
 }
 ```
+5. The documentation of every query and mutation can be found at http://localhost:3000/graphql
 
 ### Client
 1. In a terminal / cmd navigate to the client folder inside the repository and install all dependencies like this:
@@ -51,7 +52,7 @@ mutation{
 cd client
 npm install
 ```
-2. Now run the client with the following command
+2. Now run the development enviroment of the client with the following command
 ```bash
 npm start
 ```
