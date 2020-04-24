@@ -8,6 +8,7 @@ const userSchema = new Schema({
   Username: String,
   Email: String,
   Password: { type: String, select: false },
+  Materials: [{ type: Schema.Types.ObjectId, ref: "Material" }],
 });
 
 module.exports = mongoose.model("User", userSchema);

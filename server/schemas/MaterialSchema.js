@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const MaterialModel = require('../models/MaterialModel');
-const MaterialRatioModel = require('../models/MaterialRatioModel');
+const MaterialModel = require("../models/MaterialModel");
+const MaterialRatioModel = require("../models/MaterialRatioModel");
 
 const {
   GraphQLObjectType,
@@ -11,10 +11,10 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-} = require('graphql');
+} = require("graphql");
 
 const materialRatioType = new GraphQLObjectType({
-  name: 'materialRatio',
+  name: "materialRatio",
   fields: () => ({
     id: { type: GraphQLID },
     Material: {
@@ -32,7 +32,7 @@ const materialRatioType = new GraphQLObjectType({
 });
 
 const materialType = new GraphQLObjectType({
-  name: 'material',
+  name: "material",
   fields: () => ({
     id: { type: GraphQLID },
     Name: { type: GraphQLString },
@@ -53,7 +53,7 @@ const materialType = new GraphQLObjectType({
 });
 
 const addMatRatioType = new GraphQLInputObjectType({
-  name: 'addMatRatioType',
+  name: "addMatRatioType",
   fields: () => ({
     MaterialID: { type: GraphQLID },
     Quantity: { type: GraphQLInt },
@@ -61,7 +61,7 @@ const addMatRatioType = new GraphQLInputObjectType({
 });
 
 const modifyMatRatioType = new GraphQLInputObjectType({
-  name: 'modifyMatRatioType',
+  name: "modifyMatRatioType",
   fields: () => ({
     MaterialID: { type: GraphQLID },
     Quantity: { type: GraphQLInt },
@@ -182,4 +182,5 @@ module.exports = {
   addMaterial,
   deleteMaterial,
   modifyMaterial,
+  materialType,
 };

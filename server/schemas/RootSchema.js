@@ -6,6 +6,9 @@ const {
   addUser,
   modifyUser,
   deleteUser,
+  addMaterialToUser,
+  userMaterials,
+  updateUserMaterial,
 } = require("./UserSchema");
 
 const {
@@ -23,6 +26,7 @@ const RootQuery = new GraphQLObjectType({
     user,
     materials,
     material,
+    userMaterials,
   },
 });
 const Mutation = new GraphQLObjectType({
@@ -34,6 +38,8 @@ const Mutation = new GraphQLObjectType({
     addMaterial,
     deleteMaterial,
     modifyMaterial,
+    addMaterialToUser,
+    updateUserMaterial,
   },
 });
 

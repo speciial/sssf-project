@@ -1,7 +1,9 @@
 "use strict";
 
 const UserModel = require("../models/UserModel");
-
+const MaterialModel = require("../models/MaterialModel");
+const UserMaterialModel = require("../models/UserMaterialModel");
+const { materialType } = require("./MaterialSchema");
 const bcrypt = require("bcrypt");
 const saltRound = 12; //okayish in 2020
 
@@ -11,11 +13,22 @@ const {
   GraphQLString,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLInputObjectType,
-  GraphQLBoolean,
   GraphQLInt,
-  GraphQLFloat,
 } = require("graphql");
+
+const userMaterialType = new GraphQLObjectType({
+  name: "userMaterial",
+  fields: () => ({
+    id: { type: GraphQLID },
+    Material: {
+      type: materialType,
+      resolve(parent, args) {
+        return MaterialModel.findById(parent.Material);
+      },
+    },
+    Quantity: { type: GraphQLInt },
+  }),
+});
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -26,6 +39,18 @@ const userType = new GraphQLObjectType({
     Username: { type: GraphQLString },
     Email: { type: GraphQLString },
     Password: { type: GraphQLString },
+    Materials: {
+      type: new GraphQLList(userMaterialType),
+      resolve: async (parent, args) => {
+        try {
+          return await UserMaterialModel.find({
+            _id: { $in: parent.Materials },
+          });
+        } catch (error) {
+          return new Error(error);
+        }
+      },
+    },
   }),
 });
 
@@ -108,10 +133,67 @@ const deleteUser = {
   },
 };
 
+const userMaterials = {
+  type: new GraphQLList(userMaterialType),
+  resolve: async (parent, args) => {
+    try {
+      return await UserMaterialModel.find({});
+    } catch (e) {
+      return new Error(e);
+    }
+  },
+};
+
+const updateUserMaterial = {
+  type: userMaterialType,
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    Material: { type: new GraphQLNonNull(GraphQLID) },
+    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
+  },
+  resolve: async (parent, args) => {
+    try {
+      return await UserMaterialModel.findByIdAndUpdate(args.id, args, {
+        new: true,
+      });
+    } catch (e) {
+      return new Error(e);
+    }
+  },
+};
+
+const addMaterialToUser = {
+  type: userType,
+  args: {
+    User: { type: new GraphQLNonNull(GraphQLID) },
+    Material: { type: new GraphQLNonNull(GraphQLID) },
+    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
+  },
+  resolve: async (parent, args) => {
+    try {
+      const newUserMaterial = await UserMaterialModel.create({
+        Material: args.Material,
+        Quantity: args.Quantity,
+      });
+      const user = await UserModel.findById(args.User);
+      if (!user.Materials) {
+        user.Materials = [];
+      }
+      user.Materials.push(newUserMaterial.id);
+      return await UserModel.findByIdAndUpdate(args.User, user, { new: true });
+    } catch (e) {
+      return new Error(e);
+    }
+  },
+};
+
 module.exports = {
   users,
   user,
   addUser,
   modifyUser,
   deleteUser,
+  addMaterialToUser,
+  userMaterials,
+  updateUserMaterial,
 };
