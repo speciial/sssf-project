@@ -1,31 +1,30 @@
 const { GraphQLObjectType, GraphQLSchema } = require("graphql");
 
+const { users, user, userMaterials } = require("./UserQuery");
+
 const {
-  users,
-  user,
   addUser,
   modifyUser,
   deleteUser,
   addMaterialToUser,
-  userMaterials,
   updateUserMaterial,
-} = require("./UserSchema");
+} = require("./UserMutation");
+
+const { materials, material } = require("./MaterialQuery");
 
 const {
-  materials,
-  material,
   addMaterial,
   deleteMaterial,
   modifyMaterial,
-} = require("./MaterialSchema");
+} = require("./MaterialMutation");
+
+const { buildings, building } = require("./BuildingQuery");
 
 const {
-  buildings,
-  building,
   addBuilding,
   deleteBuilding,
   modifyBuilding,
-} = require("./BuildingSchema");
+} = require("./BuildingMutation");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",

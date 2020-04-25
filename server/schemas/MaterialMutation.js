@@ -1,11 +1,6 @@
 "use strict";
 
-const MaterialModel = require("../models/MaterialModel");
-const MaterialRatioModel = require("../models/MaterialRatioModel");
-
 const {
-  GraphQLObjectType,
-  GraphQLInputObjectType,
   GraphQLID,
   GraphQLString,
   GraphQLList,
@@ -13,85 +8,14 @@ const {
   GraphQLInt,
 } = require("graphql");
 
-const materialRatioType = new GraphQLObjectType({
-  name: "materialRatio",
-  fields: () => ({
-    id: { type: GraphQLID },
-    Material: {
-      type: materialType,
-      resolve: async (parent, args) => {
-        try {
-          return await MaterialModel.findById(parent.MaterialID);
-        } catch (error) {
-          return new Error(error);
-        }
-      },
-    },
-    Quantity: { type: GraphQLInt },
-  }),
-});
+const MaterialModel = require("../models/MaterialModel");
+const MaterialRatioModel = require("../models/MaterialRatioModel");
 
-const materialType = new GraphQLObjectType({
-  name: "material",
-  fields: () => ({
-    id: { type: GraphQLID },
-    Name: { type: GraphQLString },
-    Size: { type: GraphQLInt },
-    Weight: { type: GraphQLInt },
-    Picture: { type: GraphQLString },
-    CraftingRecipe: {
-      type: new GraphQLList(materialRatioType),
-      resolve: async (parent, args) => {
-        try {
-          return await MaterialRatioModel.find({ _id: parent.CraftingRecipe });
-        } catch (error) {
-          return new Error(error);
-        }
-      },
-    },
-  }),
-});
-
-const addMatRatioType = new GraphQLInputObjectType({
-  name: "addMatRatioType",
-  fields: () => ({
-    MaterialID: { type: new GraphQLNonNull(GraphQLID) },
-    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
-  }),
-});
-
-const modifyMatRatioType = new GraphQLInputObjectType({
-  name: "modifyMatRatioType",
-  fields: () => ({
-    MaterialID: { type: new GraphQLNonNull(GraphQLID) },
-    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
-  }),
-});
-
-const materials = {
-  type: new GraphQLList(materialType),
-  resolve: async (parent, args) => {
-    try {
-      return await MaterialModel.find({});
-    } catch (error) {
-      return new Error(error);
-    }
-  },
-};
-
-const material = {
-  type: materialType,
-  args: {
-    id: { type: new GraphQLNonNull(GraphQLID) },
-  },
-  resolve: async (parent, args) => {
-    try {
-      return await MaterialModel.findById(args.id);
-    } catch (error) {
-      return new Error(error);
-    }
-  },
-};
+const {
+  materialType,
+  addMatRatioType,
+  modifyMatRatioType,
+} = require("./MaterialType");
 
 const addMaterial = {
   type: materialType,
@@ -177,14 +101,9 @@ const modifyMaterial = {
 };
 
 module.exports = {
-  materialType,
-  materialRatioType,
   addMatRatioType,
   modifyMatRatioType,
-  materials,
-  material,
   addMaterial,
   deleteMaterial,
   modifyMaterial,
-  materialType,
 };

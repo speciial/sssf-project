@@ -1,79 +1,18 @@
-'use strict';
-
-const BuildingModel = require('../models/BuildingModel');
-const MaterialModel = require('../models/MaterialModel');
-const MaterialRatioModel = require('../models/MaterialRatioModel');
+"use strict";
 
 const {
-  materialType,
-  materialRatioType,
-  addMatRatioType,
-  modifyMatRatioType,
-} = require('./MaterialSchema');
-
-const {
-  GraphQLObjectType,
   GraphQLID,
   GraphQLString,
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-} = require('graphql');
+} = require("graphql");
 
-const buildingType = new GraphQLObjectType({
-  name: 'building',
-  fields: () => ({
-    id: { type: GraphQLID },
-    Name: { type: GraphQLString },
-    Cost: { type: GraphQLInt },
-    Picture: { type: GraphQLString },
-    MaterialID: {
-      type: materialType,
-      resolve: async (parent, args) => {
-        try {
-          return await MaterialModel.findById(parent.MaterialID);
-        } catch (error) {
-          return new Error(error);
-        }
-      },
-    },
-    CraftingRecipe: {
-      type: new GraphQLList(materialRatioType),
-      resolve: async (parent, args) => {
-        try {
-          return await MaterialRatioModel.find({ _id: parent.CraftingRecipe });
-        } catch (error) {
-          return new Error(error);
-        }
-      },
-    },
-  }),
-});
+const { addMatRatioType, modifyMatRatioType } = require("./MaterialType");
+const { buildingType } = require("./BuildingType");
 
-const buildings = {
-  type: new GraphQLList(buildingType),
-  resolve: async (parent, args) => {
-    try {
-      return await BuildingModel.find({});
-    } catch (error) {
-      return new Error(error);
-    }
-  },
-};
-
-const building = {
-  type: buildingType,
-  args: {
-    id: { type: new GraphQLNonNull(GraphQLID) },
-  },
-  resolve: async (parent, args) => {
-    try {
-      return await BuildingModel.findById(args.id);
-    } catch (error) {
-      return new Error(error);
-    }
-  },
-};
+const BuildingModel = require("../models/BuildingModel");
+const MaterialRatioModel = require("../models/MaterialRatioModel");
 
 const addBuilding = {
   type: buildingType,
@@ -159,8 +98,6 @@ const modifyBuilding = {
 };
 
 module.exports = {
-  buildings,
-  building,
   addBuilding,
   deleteBuilding,
   modifyBuilding,
