@@ -69,7 +69,8 @@ const SignIn = () => {
       }).then((response) => response.json());
       if (response.user) {
         //we are logged in
-        authUser(response.user, response.token, remember);
+        console.log(response.user);
+        authUser(response.user.id, response.token, remember);
         history.push("/user");
       } else {
         //we are not logged in

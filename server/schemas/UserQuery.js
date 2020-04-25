@@ -18,7 +18,7 @@ const users = {
 };
 
 const user = {
-  type: new GraphQLList(userType),
+  type: userType,
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },

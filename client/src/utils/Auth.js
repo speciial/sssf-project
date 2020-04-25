@@ -1,37 +1,35 @@
 const isAuth = () => {
-  if (getAuthUser() === null) {
+  if (getAuthUserId() === null) {
     return false;
   } else {
     return true;
   }
 };
 
-const getAuthUser = () => {
-  return JSON.parse(
-    localStorage.getItem("user") || sessionStorage.getItem("user")
-  );
+const getAuthUserId = () => {
+  return localStorage.getItem("id") || sessionStorage.getItem("id");
 };
 
-const authUser = (user, token, remember) => {
+const authUser = (id, token, remember) => {
   if (remember) {
-    localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
+    localStorage.setItem("id", id);
   } else {
-    sessionStorage.setItem("user", JSON.stringify(user));
     sessionStorage.setItem("token", token);
+    sessionStorage.setItem("id", id);
   }
 };
 
 const disconnectUser = () => {
-  localStorage.removeItem("user");
   localStorage.removeItem("token");
-  sessionStorage.removeItem("user");
   sessionStorage.removeItem("token");
+  localStorage.removeItem("id");
+  sessionStorage.removeItem("id");
 };
 
 module.exports = {
   isAuth,
-  getAuthUser,
+  getAuthUserId,
   authUser,
   disconnectUser,
 };
