@@ -8,7 +8,10 @@ const userSchema = new Schema({
   Username: String,
   Email: String,
   Password: { type: String, select: false },
-  Materials: [{ type: Schema.Types.ObjectId, ref: "Material" }],
+  Materials: [
+    { type: Schema.Types.ObjectId, ref: "UserMaterial", default: [] },
+  ],
+  Buildings: [{ type: Schema.Types.ObjectId, ref: "Building", default: [] }],
 });
 
 module.exports = mongoose.model("User", userSchema);

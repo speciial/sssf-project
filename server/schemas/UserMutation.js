@@ -2,6 +2,9 @@
 const bcrypt = require("bcrypt");
 const saltRound = 12; //okayish in 2020
 
+const UserModel = require("../models/UserModel");
+const UserMaterialModel = require("../models/UserMaterialModel");
+
 const {
   GraphQLID,
   GraphQLString,
@@ -15,8 +18,8 @@ const updateUserMaterial = {
   type: userMaterialType,
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
-    Material: { type: new GraphQLNonNull(GraphQLID) },
-    Quantity: { type: new GraphQLNonNull(GraphQLInt) },
+    Material: { type: GraphQLID },
+    Quantity: { type: GraphQLInt },
   },
   resolve: async (parent, args) => {
     try {
@@ -53,6 +56,27 @@ const addMaterialToUser = {
     }
   },
 };
+
+const addBuildingToUser = {
+  type: userType,
+  args: {
+    User: { type: new GraphQLNonNull(GraphQLID) },
+    Building: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve: async (parent, args) => {
+    try {
+      const user = await UserModel.findById(args.User);
+      if (!user.Buildings) {
+        user.Buildings = [];
+      }
+      user.Buildings.push(args.Building);
+      return await UserModel.findByIdAndUpdate(args.User, user, { new: true });
+    } catch (e) {
+      return new Error(e);
+    }
+  },
+};
+
 const addUser = {
   type: userType,
   args: {
@@ -113,4 +137,5 @@ module.exports = {
   deleteUser,
   addMaterialToUser,
   updateUserMaterial,
+  addBuildingToUser,
 };

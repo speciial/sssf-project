@@ -1,8 +1,10 @@
 "use strict";
 const MaterialModel = require("../models/MaterialModel");
+const BuildingModel = require("../models/BuildingModel");
 const UserMaterialModel = require("../models/UserMaterialModel");
 
 const { materialType } = require("./MaterialType");
+const { buildingType } = require("./BuildingType");
 
 const {
   GraphQLObjectType,
@@ -41,6 +43,18 @@ const userType = new GraphQLObjectType({
         try {
           return await UserMaterialModel.find({
             _id: { $in: parent.Materials },
+          });
+        } catch (error) {
+          return new Error(error);
+        }
+      },
+    },
+    Buildings: {
+      type: new GraphQLList(buildingType),
+      resolve: async (parent, args) => {
+        try {
+          return await BuildingModel.find({
+            _id: { $in: parent.Buildings },
           });
         } catch (error) {
           return new Error(error);

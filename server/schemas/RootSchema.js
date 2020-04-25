@@ -8,6 +8,7 @@ const {
   deleteUser,
   addMaterialToUser,
   updateUserMaterial,
+  addBuildingToUser,
 } = require("./UserMutation");
 
 const { materials, material } = require("./MaterialQuery");
@@ -53,6 +54,7 @@ const Mutation = new GraphQLObjectType({
     addBuilding,
     deleteBuilding,
     modifyBuilding,
+    addBuildingToUser,
   },
 });
 

@@ -90,16 +90,16 @@ const UserTabs = ({ user }) => {
       <TabPanel value={value} index={1}>
         {
           //MATERIAL
-          console.log(user)
         }
         <div className={classes.grid}>
           <GridList cellHeight={160} className={classes.gridList} cols={3}>
-            {user.Materials.map((materialUser) => (
-              <GridListTile>
-                <p>{materialUser.Material.Name}</p>
-                <p>{materialUser.Quantity}</p>
-              </GridListTile>
-            ))}
+            {user.Materials &&
+              user.Materials.map((materialUser) => (
+                <GridListTile>
+                  <p>{materialUser.Material.Name}</p>
+                  <p>{materialUser.Quantity}</p>
+                </GridListTile>
+              ))}
           </GridList>
         </div>
       </TabPanel>
@@ -107,7 +107,16 @@ const UserTabs = ({ user }) => {
         {
           //BUILDINGS
         }
-        Item Three
+        <div className={classes.grid}>
+          <GridList cellHeight={160} className={classes.gridList} cols={3}>
+            {user.Buildings &&
+              user.Buildings.map((building) => (
+                <GridListTile>
+                  <p>{building.Name}</p>
+                </GridListTile>
+              ))}
+          </GridList>
+        </div>
       </TabPanel>
     </div>
   );
