@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import { gql } from 'apollo-boost';
-import { graphql } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 
 import BuildingRow from './BuildingRow';
 
@@ -36,19 +36,14 @@ const buildingQuery = gql`
   }
 `;
 
-class Buildings extends Component {
-  constructor(props) {
-    super(props);
+const Buildings = () => {
+  const { loading, error, data } = useQuery(buildingQuery);
 
-    this.wrapper = React.createRef();
-  }
-
-  state = {};
-
-  displayBuildings() {
-    const data = this.props.data;
-
-    if (data.loading) {
+  const displayBuildings = () => {
+    if (error) {
+      console.log(error);
+    }
+    if (loading) {
       return (
         <TableRow key={'loading'}>
           <TableCell component="th" scope="row">
@@ -61,34 +56,26 @@ class Buildings extends Component {
       );
     } else {
       return data.buildings.map((building) => {
-        return (
-          <BuildingRow
-            ref={this.wrapper}
-            key={building.id}
-            building={building}
-          />
-        );
+        return <BuildingRow key={building.id} building={building} />;
       });
     }
-  }
+  };
 
-  render() {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Building Name</TableCell>
-              <TableCell align="right">Cost</TableCell>
-              <TableCell align="right">Picture</TableCell>
-              <TableCell align="right">Product</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{this.displayBuildings()}</TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
-}
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Building Name</TableCell>
+            <TableCell align="right">Cost</TableCell>
+            <TableCell align="right">Picture</TableCell>
+            <TableCell align="right">Product</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{displayBuildings()}</TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
-export default graphql(buildingQuery)(Buildings);
+export default Buildings;

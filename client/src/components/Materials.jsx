@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import { gql } from 'apollo-boost';
-import { graphql } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 
 import MaterialRow from './MaterialRow';
 
@@ -33,13 +33,14 @@ const materialQuery = gql`
   }
 `;
 
-class Materials extends Component {
-  state = {};
+const Materials = () => {
+  const { loading, error, data } = useQuery(materialQuery);
 
-  displayMaterial() {
-    const data = this.props.data;
-
-    if (data.loading) {
+  const displayMaterial = () => {
+    if (error) {
+      console.log(error);
+    }
+    if (loading) {
       return (
         <TableRow key={'loading'}>
           <TableCell component="th" scope="row">
@@ -55,25 +56,23 @@ class Materials extends Component {
         return <MaterialRow key={material.id} material={material} />;
       });
     }
-  }
+  };
 
-  render() {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Material Name</TableCell>
-              <TableCell align="right">Size</TableCell>
-              <TableCell align="right">Weight</TableCell>
-              <TableCell align="right">Picture</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{this.displayMaterial()}</TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
-}
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Material Name</TableCell>
+            <TableCell align="right">Size</TableCell>
+            <TableCell align="right">Weight</TableCell>
+            <TableCell align="right">Picture</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{displayMaterial()}</TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
-export default graphql(materialQuery)(Materials);
+export default Materials;

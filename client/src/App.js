@@ -10,6 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import Materials from './components/Materials';
 import Buildings from './components/Buildings';
+import GlobalMarket from './components/GlobalMarket';
 import Users from './components/Users';
 import Signin from './components/SignIn';
 import Signup from './components/SignUp';
@@ -79,7 +80,7 @@ const App = () => {
               <Signup />
             </Route>
             <Route path="/">
-              <Home />
+              <GlobalMarket />
             </Route>
           </Switch>
         </div>
@@ -89,10 +90,6 @@ const App = () => {
       </Router>
     </ApolloProvider>
   );
-};
-
-const Home = () => {
-  return <h2>Home</h2>;
 };
 
 export default App;
