@@ -1,8 +1,14 @@
 "use strict";
 const UserModel = require("../models/UserModel");
 const UserMaterialModel = require("../models/UserMaterialModel");
+const Authcontroller = require("../controllers/AuthController");
 
-const { GraphQLID, GraphQLList, GraphQLNonNull } = require("graphql");
+const {
+  GraphQLID,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLString,
+} = require("graphql");
 
 const { userType, userMaterialType } = require("./UserType");
 
@@ -19,14 +25,35 @@ const users = {
 
 const user = {
   type: userType,
-  args: {
-    id: { type: new GraphQLNonNull(GraphQLID) },
-  },
-  resolve: async (parent, args) => {
+  description: "Get user by token, authentication required.",
+  resolve: async (parent, args, { req, res }) => {
     try {
-      return await UserModel.findById(args.id);
-    } catch (e) {
-      return new Error(e);
+      const result = await Authcontroller.checkAuth(req, res);
+      result.token = "you have it already";
+      return result;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+};
+const login = {
+  type: userType,
+  description: "Login with username and password to receive token.",
+  args: {
+    username: { type: new GraphQLNonNull(GraphQLString) },
+    password: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  resolve: async (parent, args, { req, res }) => {
+    req.body = args; // inject args to reqest body for passport
+    try {
+      const authResponse = await Authcontroller.login(req, res);
+      return {
+        id: authResponse.user._id,
+        ...authResponse.user,
+        Token: authResponse.token,
+      };
+    } catch (err) {
+      throw new Error(err);
     }
   },
 };
@@ -46,4 +73,5 @@ module.exports = {
   users,
   user,
   userMaterials,
+  login,
 };

@@ -3,29 +3,42 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 const login = (req, res) => {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err) {
-      return res.status(400).json({
-        message: err.message,
-        user: user,
-      });
-    }
-    if (!user) {
-      return res.send({
-        message: info.message,
-        user: user,
-      });
-    }
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        res.send(err);
+  return new Promise((resolve, reject) => {
+    passport.authenticate(
+      "local",
+      { session: false },
+      async (err, user, info) => {
+        try {
+          if (err || !user) {
+            reject(info.message);
+          }
+          req.login(user, { session: false }, async (err) => {
+            if (err) {
+              reject(err);
+            }
+            const token = jwt.sign(user, process.env.JWT);
+            resolve({ user, token });
+          });
+        } catch (e) {
+          reject(e.message);
+        }
       }
-      const token = jwt.sign(user, process.env.JWT);
-      return res.json({ user, token });
-    });
-  })(req, res);
+    )(req, res);
+  });
+};
+
+const checkAuth = (req, res) => {
+  return new Promise((resolve, reject) => {
+    passport.authenticate("jwt", (err, user) => {
+      if (err || !user) {
+        reject("Not authenticated or user expired");
+      }
+      resolve(user);
+    })(req, res);
+  });
 };
 
 module.exports = {
   login,
+  checkAuth,
 };

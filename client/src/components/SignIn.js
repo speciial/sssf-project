@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+
 import { useHistory } from "react-router-dom";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,7 +16,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
-import { isAuth, authUser } from "../utils/Auth";
+import { isAuth, saveTokenToStorage } from "../utils/Auth";
+
+import { useLazyQuery } from "@apollo/react-hooks";
+
+import { Login } from "../queries/UserQueries";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,49 +45,37 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [credential, setCredential] = useState();
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState();
   const history = useHistory();
+  const classes = useStyles();
 
-  var messages;
-  if (history.location.state) {
-    messages = history.location.state.messages;
-  }
+  const onErrorLogin = (error) => {
+    setError(error.message);
+  };
+  const [login, { data }] = useLazyQuery(Login, {
+    variables: credential,
+    onError: onErrorLogin,
+  });
+
+  const messages = history.location.state
+    ? history.location.state.messages
+    : "";
 
   if (isAuth()) {
+    history.push("/user");
+  }
+  if (data) {
+    saveTokenToStorage(data.login.Token, remember);
     history.push("/user");
   }
 
   const submitLogin = async (e) => {
     e.preventDefault();
-    const body = {
-      username: username,
-      password: password,
-    };
-    try {
-      const response = await fetch(`http://localhost:3000/auth/login`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }).then((response) => response.json());
-      if (response.user) {
-        //we are logged in
-        console.log(response.user);
-        authUser(response.user.id, response.token, remember);
-        history.push("/user");
-      } else {
-        //we are not logged in
-        setError(response.message);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    setCredential({ username: username, password: password });
+    login();
   };
-
-  const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">

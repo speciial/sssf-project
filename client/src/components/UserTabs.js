@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -44,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
   },
-  gridList: {
-    width: 500,
-    height: 450,
+  imgMaterial: {
+    height: "50px",
+    width: "50px",
   },
 }));
 
@@ -92,15 +93,21 @@ const UserTabs = ({ user }) => {
           //MATERIAL
         }
         <div className={classes.grid}>
-          <GridList cellHeight={160} className={classes.gridList} cols={3}>
-            {user.Materials &&
-              user.Materials.map((materialUser) => (
-                <GridListTile>
+          {user.Materials && (
+            <GridList cellHeight={160} cols={1}>
+              {user.Materials.map((materialUser) => (
+                <GridListTile cols={1}>
                   <p>{materialUser.Material.Name}</p>
                   <p>{materialUser.Quantity}</p>
+                  <img
+                    className={classes.imgMaterial}
+                    src={`./assets/${materialUser.Material.Picture}.png`}
+                    alt={materialUser.Material.Picture}
+                  ></img>
                 </GridListTile>
               ))}
-          </GridList>
+            </GridList>
+          )}
         </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
@@ -108,14 +115,15 @@ const UserTabs = ({ user }) => {
           //BUILDINGS
         }
         <div className={classes.grid}>
-          <GridList cellHeight={160} className={classes.gridList} cols={3}>
-            {user.Buildings &&
-              user.Buildings.map((building) => (
-                <GridListTile>
+          {user.Buildings && (
+            <GridList cellHeight={160} cols={1}>
+              {user.Buildings.map((building) => (
+                <GridListTile cols={1}>
                   <p>{building.Name}</p>
                 </GridListTile>
               ))}
-          </GridList>
+            </GridList>
+          )}
         </div>
       </TabPanel>
     </div>

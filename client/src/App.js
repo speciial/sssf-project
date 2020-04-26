@@ -1,33 +1,42 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Typography from '@material-ui/core/Typography';
-import MaterialLink from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
+import Typography from "@material-ui/core/Typography";
+import MaterialLink from "@material-ui/core/Link";
+import Box from "@material-ui/core/Box";
 
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
-import Materials from './components/Materials';
-import Buildings from './components/Buildings';
-import GlobalMarket from './components/GlobalMarket';
-import Users from './components/Users';
-import Signin from './components/SignIn';
-import Signup from './components/SignUp';
+import Materials from "./components/Materials";
+import Buildings from "./components/Buildings";
+import GlobalMarket from "./components/GlobalMarket";
+import Users from "./components/Users";
+import Signin from "./components/SignIn";
+import Signup from "./components/SignUp";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3000/graphql",
+  request: (operation) => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  },
 });
 
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <MaterialLink color="inherit" href="#">
         SSSF Project
-      </MaterialLink>{' '}
+      </MaterialLink>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 };

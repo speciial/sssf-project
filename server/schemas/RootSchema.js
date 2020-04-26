@@ -1,6 +1,6 @@
 const { GraphQLObjectType, GraphQLSchema } = require("graphql");
 
-const { users, user, userMaterials } = require("./UserQuery");
+const { users, user, userMaterials, login } = require("./UserQuery");
 
 const {
   addUser,
@@ -37,6 +37,7 @@ const RootQuery = new GraphQLObjectType({
     userMaterials,
     buildings,
     building,
+    login,
   },
 });
 

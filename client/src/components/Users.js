@@ -1,45 +1,16 @@
 import React from "react";
+
 import { useHistory } from "react-router-dom";
-import { isAuth, getAuthUserId, disconnectUser } from "../utils/Auth";
+import { useQuery } from "@apollo/react-hooks";
+
+import { userQuery } from "../queries/UserQueries";
 import Button from "@material-ui/core/Button";
 import UserTabs from "./UserTabs";
+import { isAuth, disconnectUser } from "../utils/Auth";
 
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-const userQuery = gql`
-  query User($id: ID!) {
-    user(id: $id) {
-      id
-      FirstName
-      LastName
-      Username
-      Email
-      Materials {
-        id
-        Material {
-          id
-          Name
-          Size
-          Weight
-          Picture
-          CraftingRecipe {
-            id
-            Material {
-              id
-            }
-            Quantity
-          }
-        }
-        Quantity
-      }
-    }
-  }
-`;
 const Users = () => {
   const history = useHistory();
-  const { loading, data } = useQuery(userQuery, {
-    variables: { id: getAuthUserId() },
-  });
+  const { loading, error, data } = useQuery(userQuery);
 
   if (!isAuth()) {
     //if not auth redirect to loginpage
@@ -49,6 +20,13 @@ const Users = () => {
 
   if (loading) return <p>Loading ...</p>;
 
+  if (error) {
+    disconnectUser();
+    history.push("/signin", {
+      messages: ["Error fetching login, please log in"],
+    });
+    return null;
+  }
   const user = data.user;
 
   const disconnect = (e) => {

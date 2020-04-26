@@ -9,7 +9,6 @@ const graphqlHTTP = require("express-graphql");
 const MyGraphQLSchema = require("./schemas/RootSchema");
 const passport = require("./utils/passport");
 
-const AuthRoute = require("./routes/AuthRoute");
 const MaterialRoute = require("./routes/MaterialRoute");
 const UserRoute = require("./routes/UserRoute");
 
@@ -26,23 +25,14 @@ app.get("/", (req, res) => {
 
 app.use("/material", MaterialRoute);
 app.use("/user", UserRoute);
-app.use("/auth", AuthRoute);
 
 app.use(passport.initialize());
-
-const checkAuth = (req, res, next) => {
-  passport.authenticate("jwt", { session: false }, (err, user, info) => {
-    if (err || !user) {
-      throw new Error("Not authenticated");
-    }
-  })(req, res, next);
-};
 
 app.use("/graphql", (req, res) => {
   graphqlHTTP({
     schema: MyGraphQLSchema,
     graphiql: true,
-    context: { req, res, checkAuth },
+    context: { req, res },
   })(req, res);
 });
 
