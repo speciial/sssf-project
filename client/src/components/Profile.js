@@ -5,10 +5,10 @@ import { useQuery } from "@apollo/react-hooks";
 
 import { userQuery } from "../queries/UserQueries";
 import Button from "@material-ui/core/Button";
-import UserTabs from "./UserTabs";
+import UserTabs from "./ProfileTabs";
 import { isAuth, disconnectUser } from "../utils/Auth";
 
-const Users = () => {
+const Profile = () => {
   const history = useHistory();
   const { loading, error, data } = useQuery(userQuery);
 
@@ -52,4 +52,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Profile;

@@ -64,11 +64,11 @@ const SignIn = () => {
     : "";
 
   if (isAuth()) {
-    history.push("/user");
+    history.push("/profile");
   }
   if (data) {
     saveTokenToStorage(data.login.Token, remember);
-    history.push("/user");
+    history.push("/profile");
   }
 
   const submitLogin = async (e) => {

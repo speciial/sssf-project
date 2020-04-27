@@ -11,7 +11,8 @@ import { ApolloProvider } from "react-apollo";
 import Materials from "./components/Materials";
 import Buildings from "./components/Buildings";
 import GlobalMarket from "./components/GlobalMarket";
-import Users from "./components/Users";
+import Profile from "./components/Profile";
+import User from "./components/User";
 import Signin from "./components/SignIn";
 import Signup from "./components/SignUp";
 
@@ -66,7 +67,7 @@ const App = () => {
                 <Link to="/buildings">Buildings</Link>
               </li>
               <li>
-                <Link to="/user">Profile</Link>
+                <Link to="/profile">Profile</Link>
               </li>
             </ul>
           </nav>
@@ -79,14 +80,17 @@ const App = () => {
             <Route path="/buildings">
               <Buildings />
             </Route>
-            <Route path="/user">
-              <Users />
+            <Route path="/profile">
+              <Profile />
             </Route>
             <Route path="/signin">
               <Signin />
             </Route>
             <Route path="/signup">
               <Signup />
+            </Route>
+            <Route path="/user/:username">
+              <User />
             </Route>
             <Route path="/">
               <GlobalMarket />
