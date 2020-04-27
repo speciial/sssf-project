@@ -87,6 +87,7 @@ const UserTabs = ({ user }) => {
         <p>Last name : {user.LastName}</p>
         <p>Username : {user.Username}</p>
         <p>Email : {user.Email}</p>
+        <p>Money : {user.Money}</p>
       </TabPanel>
       <TabPanel value={value} index={1}>
         {

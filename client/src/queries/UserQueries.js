@@ -9,6 +9,7 @@ const Login = gql`
       Username
       Email
       Token
+      Money
       Materials {
         id
         Material {
@@ -59,6 +60,7 @@ const addUserMutation = gql`
       LastName
       Username
       Email
+      Money
     }
   }
 `;
@@ -71,6 +73,7 @@ const userQuery = gql`
       LastName
       Username
       Email
+      Money
       Materials {
         id
         Material {

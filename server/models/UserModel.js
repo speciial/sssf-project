@@ -7,7 +7,8 @@ const userSchema = new Schema({
   LastName: String,
   Username: String,
   Email: String,
-  Password: { type: String },
+  Password: String,
+  Money: { type: Number, default: 0 },
   Materials: [
     { type: Schema.Types.ObjectId, ref: "UserMaterial", default: [] },
   ],

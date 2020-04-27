@@ -37,6 +37,7 @@ const userType = new GraphQLObjectType({
     Username: { type: GraphQLString },
     Email: { type: GraphQLString },
     Password: { type: GraphQLString },
+    Money: { type: GraphQLInt },
     Token: { type: GraphQLString },
     Materials: {
       type: new GraphQLList(userMaterialType),

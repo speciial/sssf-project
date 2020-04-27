@@ -16,6 +16,7 @@ const { userType, userMaterialType } = require("./UserType");
 
 const updateUserMaterial = {
   type: userMaterialType,
+  description: "Mutation to update the user material entry",
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
     Material: { type: GraphQLID },
@@ -34,6 +35,7 @@ const updateUserMaterial = {
 
 const addMaterialToUser = {
   type: userType,
+  description: "Mutation to an user material entry",
   args: {
     User: { type: new GraphQLNonNull(GraphQLID) },
     Material: { type: new GraphQLNonNull(GraphQLID) },
@@ -59,12 +61,15 @@ const addMaterialToUser = {
 
 const addBuildingToUser = {
   type: userType,
+  description: "Mutation to add a building to a given user",
   args: {
     User: { type: new GraphQLNonNull(GraphQLID) },
     Building: { type: new GraphQLNonNull(GraphQLID) },
   },
   resolve: async (parent, args) => {
     try {
+      //TODO:
+      //Get the building and remove money & material from the user
       const user = await UserModel.findById(args.User);
       if (!user.Buildings) {
         user.Buildings = [];
@@ -79,6 +84,7 @@ const addBuildingToUser = {
 
 const addUser = {
   type: userType,
+  description: "Mutation to an user",
   args: {
     FirstName: { type: new GraphQLNonNull(GraphQLString) },
     LastName: { type: new GraphQLNonNull(GraphQLString) },
@@ -100,6 +106,7 @@ const addUser = {
 
 const modifyUser = {
   type: userType,
+  description: "Mutation to update an user",
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
     FirstName: { type: GraphQLString },
@@ -107,6 +114,7 @@ const modifyUser = {
     Username: { type: GraphQLString },
     Email: { type: GraphQLString },
     Password: { type: GraphQLString },
+    Money: { type: GraphQLInt },
   },
   resolve: async (parent, args) => {
     try {
@@ -119,6 +127,7 @@ const modifyUser = {
 
 const deleteUser = {
   type: userType,
+  description: "Mutation to delete an user",
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },

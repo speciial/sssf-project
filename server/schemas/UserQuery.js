@@ -14,6 +14,7 @@ const { userType, userMaterialType } = require("./UserType");
 
 const users = {
   type: new GraphQLList(userType),
+  description: "Return the list of users",
   resolve: async (parent, args) => {
     try {
       return await UserModel.find({});
@@ -32,10 +33,28 @@ const user = {
       result.token = "you have it already";
       return result;
     } catch (err) {
-      throw new Error(err);
+      return new Error(err);
     }
   },
 };
+
+const public_user = {
+  type: userType,
+  description: "Get public user by username",
+  args: {
+    username: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  resolve: async (parent, args) => {
+    try {
+      //TODO:
+      // Return only wanted property
+      return await UserModel.findOne({ Username: args.username });
+    } catch (e) {
+      return new Error(e);
+    }
+  },
+};
+
 const login = {
   type: userType,
   description: "Login with username and password to receive token.",
@@ -60,6 +79,7 @@ const login = {
 
 const userMaterials = {
   type: new GraphQLList(userMaterialType),
+  description: "Return the list of user material entry",
   resolve: async (parent, args) => {
     try {
       return await UserMaterialModel.find({});
@@ -74,4 +94,5 @@ module.exports = {
   user,
   userMaterials,
   login,
+  public_user,
 };
