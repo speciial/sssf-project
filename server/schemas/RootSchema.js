@@ -1,6 +1,6 @@
-const { GraphQLObjectType, GraphQLSchema } = require("graphql");
+const { GraphQLObjectType, GraphQLSchema } = require('graphql');
 
-const { users, user, userMaterials, login } = require("./UserQuery");
+const { users, user, userMaterials, login } = require('./UserQuery');
 
 const {
   addUser,
@@ -9,26 +9,30 @@ const {
   addMaterialToUser,
   updateUserMaterial,
   addBuildingToUser,
-} = require("./UserMutation");
+} = require('./UserMutation');
 
-const { materials, material } = require("./MaterialQuery");
+const { materials, material } = require('./MaterialQuery');
 
 const {
   addMaterial,
   deleteMaterial,
   modifyMaterial,
-} = require("./MaterialMutation");
+} = require('./MaterialMutation');
 
-const { buildings, building } = require("./BuildingQuery");
+const { buildings, building } = require('./BuildingQuery');
 
 const {
   addBuilding,
   deleteBuilding,
   modifyBuilding,
-} = require("./BuildingMutation");
+} = require('./BuildingMutation');
+
+const { markets, marketById, marketByName } = require('./MarketQuery');
+
+const { addMarket, addMarketEntry } = require('./MarketMutation');
 
 const RootQuery = new GraphQLObjectType({
-  name: "RootQueryType",
+  name: 'RootQueryType',
   fields: {
     users,
     user,
@@ -38,11 +42,14 @@ const RootQuery = new GraphQLObjectType({
     buildings,
     building,
     login,
+    markets,
+    marketById,
+    marketByName,
   },
 });
 
 const Mutation = new GraphQLObjectType({
-  name: "MutationType",
+  name: 'MutationType',
   fields: {
     addUser,
     modifyUser,
@@ -56,6 +63,8 @@ const Mutation = new GraphQLObjectType({
     deleteBuilding,
     modifyBuilding,
     addBuildingToUser,
+    addMarket,
+    addMarketEntry,
   },
 });
 
