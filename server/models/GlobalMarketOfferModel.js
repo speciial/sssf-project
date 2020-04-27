@@ -9,11 +9,11 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const globalMarketEntry = new Schema({
+const globalMarketOffer = new Schema({
   User: { type: Schema.Types.ObjectId, ref: 'User' },
-  SuggestedPrice: Number,
+  Message: String,
+  GoldOffer: Number,
   Materials: [{ type: Schema.Types.ObjectId, ref: 'Material' }],
-  Offers: [{ type: Schema.Types.ObjectId, ref: 'GlobalMarketOffer' }],
 });
 
-module.exports = mongoose.model('GlobalMarketEntry', globalMarketEntry);
+module.exports = mongoose.model('GlobalMarketOffer', globalMarketOffer);
