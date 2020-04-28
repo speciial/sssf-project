@@ -55,7 +55,6 @@ const Chat = ({ chatName, socket }) => {
   };
 
   useEffect(() => {
-    console.log("ho");
     socket.on("messages", (data) => {
       setMessages(data);
       scroll();

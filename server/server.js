@@ -16,8 +16,6 @@ const passport = require("./utils/passport");
 const MaterialRoute = require("./routes/MaterialRoute");
 const UserRoute = require("./routes/UserRoute");
 
-const PORT = 3000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -40,8 +38,10 @@ app.use("/graphql", (req, res) => {
   })(req, res);
 });
 
-socket(io, "4000", 20);
+socket(io, process.env.SOCKET_PORT, 20);
 
 db.on("connected", () => {
-  app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+  app.listen(process.env.PORT, () =>
+    console.log(`Listening on port ${process.env.PORT}`)
+  );
 });
