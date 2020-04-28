@@ -16,7 +16,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
-import { isAuth, saveTokenToStorage } from "../utils/Auth";
+import {
+  isAuth,
+  saveTokenToStorage,
+  saveUsernameToStorage,
+} from "../utils/Auth";
 
 import { useLazyQuery } from "@apollo/react-hooks";
 
@@ -68,6 +72,7 @@ const SignIn = () => {
   }
   if (data) {
     saveTokenToStorage(data.login.Token, remember);
+    saveUsernameToStorage(data.login.Username, remember);
     history.push("/profile");
   }
 

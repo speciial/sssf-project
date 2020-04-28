@@ -15,6 +15,10 @@ import Profile from "./components/Profile";
 import User from "./components/User";
 import Signin from "./components/SignIn";
 import Signup from "./components/SignUp";
+import Chat from "./components/Chat";
+
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:4000";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -43,6 +47,8 @@ const Copyright = () => {
 };
 
 const App = () => {
+  const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
+
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -71,6 +77,7 @@ const App = () => {
               </li>
             </ul>
           </nav>
+
           {/* A <Switch> looks through its children <Route>s and
                   renders the first one that matches the current URL. */}
           <Switch>
@@ -97,9 +104,12 @@ const App = () => {
             </Route>
           </Switch>
         </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
+        <footer>
+          {<Chat chatName={"Global Chat"} socket={socket} />}
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </footer>
       </Router>
     </ApolloProvider>
   );
