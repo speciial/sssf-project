@@ -93,6 +93,79 @@ const addMarketEntry = {
   },
 };
 
+const deleteMarketEntry = {
+  type: marketEntryType,
+  args: {
+    MarketEntryId: { type: new GraphQLNonNull(GraphQLID) },
+  },
+  resolve: async (parent, args) => {
+    try {
+      const entry = await MarketEntryModel.findById(args.MarketEntryId)
+        .populate('User')
+        .populate('Materials');
+      const user = entry.User;
+
+      // add money back to user
+      user.Money += entry.SuggestedPrice;
+
+      // add materials to buying user
+      const newUserMaterial = [];
+      await Promise.all(
+        user.Materials.map(async (uMat) => {
+          const m = await UserMaterialModel.findByIdAndDelete(uMat._id);
+          newUserMaterial.push({
+            Material: uMat.Material,
+            Quantity: uMat.Quantity,
+          });
+        })
+      );
+
+      await Promise.all(
+        entry.Materials.map(async (eMat) => {
+          let found = false;
+
+          newUserMaterial.forEach((bMat) => {
+            if (eMat.MaterialID + '' == bMat.Material + '') {
+              found = true;
+              bMat.Quantity += eMat.Quantity;
+            }
+          });
+          if (!found) {
+            newUserMaterial.push({
+              Material: eMat.MaterialID,
+              Quantity: eMat.Quantity,
+            });
+          }
+        })
+      );
+
+      const uMats = await Promise.all(
+        newUserMaterial.map(async (mat) => {
+          const m = new UserMaterialModel(mat);
+          await m.save();
+          return m._id;
+        })
+      );
+
+      user.Materials = uMats;
+      await UserModel.findByIdAndUpdate(user._id, user, {
+        new: true,
+      });
+
+      // remove market entry
+      const delEntry = await MarketEntryModel.findByIdAndDelete(
+        args.MarketEntryId
+      );
+      await delEntry.Materials.map(async (eMat) => {
+        await MaterialRatioModel.findByIdAndDelete(eMat);
+      });
+      return delEntry;
+    } catch (error) {
+      return new Error(error);
+    }
+  },
+};
+
 const buyMarketEntry = {
   type: marketEntryType,
   args: {
@@ -120,7 +193,7 @@ const buyMarketEntry = {
         const newUserMaterial = [];
         await Promise.all(
           buyingUser.Materials.map(async (uMat) => {
-            const m = await UserMaterialModel.findByIdAndDelete(uMat);
+            const m = await UserMaterialModel.findByIdAndDelete(uMat._id);
             newUserMaterial.push({
               Material: uMat.Material,
               Quantity: uMat.Quantity,
@@ -157,6 +230,10 @@ const buyMarketEntry = {
 
         buyingUser.Materials = uMats;
         await UserModel.findByIdAndUpdate(buyingUser._id, buyingUser, {
+          new: true,
+        });
+
+        await UserModel.findByIdAndUpdate(sellingUser._id, sellingUser, {
           new: true,
         });
 
