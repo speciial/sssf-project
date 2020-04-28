@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const marketEntry = new Schema({
   User: { type: Schema.Types.ObjectId, ref: 'User' },
   SuggestedPrice: Number,
-  Materials: [{ type: Schema.Types.ObjectId, ref: 'Material' }],
+  Materials: [{ type: Schema.Types.ObjectId, ref: 'MaterialRatio' }],
   Offers: [{ type: Schema.Types.ObjectId, ref: 'MarketOffer' }],
 });
 

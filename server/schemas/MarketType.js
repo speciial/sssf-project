@@ -139,7 +139,7 @@ const addMarketOfferType = new GraphQLInputObjectType({
   fields: () => ({
     User: { type: new GraphQLNonNull(GraphQLID) },
     Message: { type: new GraphQLNonNull(GraphQLString) },
-    GoldOffer: { type: new GraphQLNonNull(GraphQLInt) },
+    MoneyOffer: { type: new GraphQLNonNull(GraphQLInt) },
     Materials: { type: new GraphQLList(addMatRatioType) },
   }),
 });
