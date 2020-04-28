@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const {
   GraphQLID,
@@ -6,22 +6,22 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-} = require('graphql');
+} = require("graphql");
 
 const {
   marketType,
   marketEntryType,
   addMarketEntryType,
   addMarketOfferType,
-} = require('./MarketType');
+} = require("./MarketType");
 
-const MarketModel = require('../models/MarketModel');
-const MarketEntryModel = require('../models/MarketEntryModel');
+const MarketModel = require("../models/MarketModel");
+const MarketEntryModel = require("../models/MarketEntryModel");
 
-const MaterialRatioModel = require('../models/MaterialRatioModel');
+const MaterialRatioModel = require("../models/MaterialRatioModel");
 
-const UserModel = require('../models/UserModel');
-const UserMaterialModel = require('../models/UserMaterialModel');
+const UserModel = require("../models/UserModel");
+const UserMaterialModel = require("../models/UserMaterialModel");
 
 /**
  * NOTE:
@@ -50,7 +50,7 @@ const addMarketEntry = {
   resolve: async (parent, args) => {
     try {
       const user = await UserModel.findById(args.MarketEntry.User).populate(
-        'Materials'
+        "Materials"
       );
 
       const hasMaterial = updateUserMaterial(
@@ -84,7 +84,7 @@ const addMarketEntry = {
 
         return newEntry;
       } else {
-        return new Error('User does not have the requiered materials');
+        return new Error("User does not have the requiered materials");
       }
       return null;
     } catch (error) {
@@ -102,11 +102,11 @@ const buyMarketEntry = {
   resolve: async (parent, args) => {
     try {
       const buyingUser = await UserModel.findById(args.UserId).populate(
-        'Materials'
+        "Materials"
       );
       const entry = await MarketEntryModel.findById(args.MarketEntryId)
-        .populate('User')
-        .populate('Materials');
+        .populate("User")
+        .populate("Materials");
       const sellingUser = entry.User;
 
       // console.log('Buying User', buyingUser);
@@ -135,18 +135,24 @@ const buyMarketEntry = {
           entry.Materials.map(async (eMat) => {
             let found = false;
 
-            await Promise.all(
-              newUserMaterial.map((bMat) => {
-                console.log('eMat', eMat.MaterialID);
-                console.log('bMat', bMat.Material);
-                if (eMat.MaterialID == bMat.Material) {
-                  found = true;
-                  bMat.Quantity += eMat.Quantity;
-                }
-              })
-            );
+            newUserMaterial.forEach((bMat) => {
+              console.log("eMat", eMat.MaterialID);
+              console.log("bMat", bMat.Material);
 
-            console.log('Found', found);
+              //check this @speciial
+              const a = eMat.MaterialID + "";
+              const b = bMat.Material + "";
+              console.log("a == b", a == b);
+              console.log("eMat == bMat", eMat.MaterialID == bMat.Material);
+
+              if (eMat.MaterialID === bMat.Material) {
+                found = true;
+                console.log(found);
+                bMat.Quantity += eMat.Quantity;
+              }
+            });
+
+            console.log("Found", found);
 
             if (!found) {
               newUserMaterial.push({
@@ -174,7 +180,7 @@ const buyMarketEntry = {
 
         // remove market entry
       } else {
-        return new Error('Insufficent Founds!');
+        return new Error("Insufficent Founds!");
       }
     } catch (error) {
       return new Error(error);
