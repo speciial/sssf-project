@@ -17,13 +17,24 @@ const saveTokenToStorage = (token, remember) => {
   }
 };
 
+const saveUsernameToStorage = (userName, remember) => {
+  if (remember) {
+    localStorage.setItem("username", userName);
+  } else {
+    sessionStorage.setItem("username", userName);
+  }
+};
+
 const disconnectUser = () => {
   localStorage.removeItem("token");
   sessionStorage.removeItem("token");
+  localStorage.removeItem("username");
+  sessionStorage.removeItem("username");
 };
 
 module.exports = {
   isAuth,
   saveTokenToStorage,
   disconnectUser,
+  saveUsernameToStorage,
 };

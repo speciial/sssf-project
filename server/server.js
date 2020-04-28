@@ -2,6 +2,10 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const http = require("http").createServer(app);
+const socketIo = require("socket.io");
+const io = socketIo(http);
+const socket = require("./socketio/socket");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./database/db");
@@ -35,6 +39,8 @@ app.use("/graphql", (req, res) => {
     context: { req, res },
   })(req, res);
 });
+
+socket(io, "4000", 20);
 
 db.on("connected", () => {
   app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
