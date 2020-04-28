@@ -29,7 +29,11 @@ const {
 
 const { markets, marketById, marketByName } = require('./MarketQuery');
 
-const { addMarket, addMarketEntry } = require('./MarketMutation');
+const {
+  addMarket,
+  addMarketEntry,
+  buyMarketEntry,
+} = require('./MarketMutation');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -65,6 +69,7 @@ const Mutation = new GraphQLObjectType({
     addBuildingToUser,
     addMarket,
     addMarketEntry,
+    buyMarketEntry,
   },
 });
 
