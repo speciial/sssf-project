@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const {
   GraphQLID,
@@ -6,22 +6,22 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-} = require("graphql");
+} = require('graphql');
 
 const {
   marketType,
   marketEntryType,
   addMarketEntryType,
   addMarketOfferType,
-} = require("./MarketType");
+} = require('./MarketType');
 
-const MarketModel = require("../models/MarketModel");
-const MarketEntryModel = require("../models/MarketEntryModel");
+const MarketModel = require('../models/MarketModel');
+const MarketEntryModel = require('../models/MarketEntryModel');
 
-const MaterialRatioModel = require("../models/MaterialRatioModel");
+const MaterialRatioModel = require('../models/MaterialRatioModel');
 
-const UserModel = require("../models/UserModel");
-const UserMaterialModel = require("../models/UserMaterialModel");
+const UserModel = require('../models/UserModel');
+const UserMaterialModel = require('../models/UserMaterialModel');
 
 /**
  * NOTE:
@@ -50,7 +50,7 @@ const addMarketEntry = {
   resolve: async (parent, args) => {
     try {
       const user = await UserModel.findById(args.MarketEntry.User).populate(
-        "Materials"
+        'Materials'
       );
 
       const hasMaterial = updateUserMaterial(
@@ -84,7 +84,7 @@ const addMarketEntry = {
 
         return newEntry;
       } else {
-        return new Error("User does not have the requiered materials");
+        return new Error('User does not have the requiered materials');
       }
       return null;
     } catch (error) {
@@ -102,15 +102,12 @@ const buyMarketEntry = {
   resolve: async (parent, args) => {
     try {
       const buyingUser = await UserModel.findById(args.UserId).populate(
-        "Materials"
+        'Materials'
       );
       const entry = await MarketEntryModel.findById(args.MarketEntryId)
-        .populate("User")
-        .populate("Materials");
+        .populate('User')
+        .populate('Materials');
       const sellingUser = entry.User;
-
-      // console.log('Buying User', buyingUser);
-      // console.log('Entry', entry);
 
       if (buyingUser.Money >= entry.SuggestedPrice) {
         // remove money from buying user
@@ -136,24 +133,11 @@ const buyMarketEntry = {
             let found = false;
 
             newUserMaterial.forEach((bMat) => {
-              console.log("eMat", eMat.MaterialID);
-              console.log("bMat", bMat.Material);
-
-              //check this @speciial
-              const a = eMat.MaterialID + "";
-              const b = bMat.Material + "";
-              console.log("a == b", a == b);
-              console.log("eMat == bMat", eMat.MaterialID == bMat.Material);
-
-              if (eMat.MaterialID === bMat.Material) {
+              if (eMat.MaterialID + '' == bMat.Material + '') {
                 found = true;
-                console.log(found);
                 bMat.Quantity += eMat.Quantity;
               }
             });
-
-            console.log("Found", found);
-
             if (!found) {
               newUserMaterial.push({
                 Material: eMat.MaterialID,
@@ -162,8 +146,6 @@ const buyMarketEntry = {
             }
           })
         );
-
-        console.log(newUserMaterial);
 
         const uMats = await Promise.all(
           newUserMaterial.map(async (mat) => {
@@ -179,8 +161,15 @@ const buyMarketEntry = {
         });
 
         // remove market entry
+        const delEntry = await MarketEntryModel.findByIdAndDelete(
+          args.MarketEntryId
+        );
+        await delEntry.Materials.map(async (eMat) => {
+          await MaterialRatioModel.findByIdAndDelete(eMat);
+        });
+        return delEntry;
       } else {
-        return new Error("Insufficent Founds!");
+        return new Error('Insufficent Founds!');
       }
     } catch (error) {
       return new Error(error);
@@ -226,123 +215,3 @@ module.exports = {
   addMarketEntry,
   buyMarketEntry,
 };
-
-/*
-"markets": [
-      {
-        "Entries": [
-          {
-            "id": "5ea6cdbd4bda4f39a47db85e",
-            "Materials": [
-              {
-                "Material": {
-                  "Name": "Trees"
-                },
-                "Quantity": 20
-              }
-            ],
-            "User": {
-              "id": "5ea042bbebb53c2194bd25d7",
-              "Username": "test"
-            },
-            "SuggestedPrice": 2000
-          }
-        ]
-      }
-]
- */
-
-/*
-[
-      {
-        "id": "5ea1a4d6d8d2ca2718799fd8",
-        "Name": "Trees"
-      },
-      {
-        "id": "5ea1a51ad8d2ca2718799fd9",
-        "Name": "Stone"
-      },
-      {
-        "id": "5ea1a53dd8d2ca2718799fda",
-        "Name": "Iron Ore"
-      },
-      {
-        "id": "5ea1a55bd8d2ca2718799fdb",
-        "Name": "Silver Ore"
-      },
-      {
-        "id": "5ea1a572d8d2ca2718799fdc",
-        "Name": "Gold Ore"
-      },
-      {
-        "id": "5ea1a5a0d8d2ca2718799fdd",
-        "Name": "Wheat"
-      },
-      {
-        "id": "5ea1a5c5d8d2ca2718799fde",
-        "Name": "Tobacco"
-      },
-      {
-        "id": "5ea1a5d9d8d2ca2718799fdf",
-        "Name": "Fish"
-      },
-      {
-        "id": "5ea1a5ebd8d2ca2718799fe0",
-        "Name": "Wine"
-      },
-      {
-        "id": "5ea1a64ed8d2ca2718799fe2",
-        "Name": "Wood"
-      },
-      {
-        "id": "5ea1a67fd8d2ca2718799fe4",
-        "Name": "Coal"
-      },
-      {
-        "id": "5ea1a6fcd8d2ca2718799fe7",
-        "Name": "Iron Ingot"
-      },
-      {
-        "id": "5ea1a723d8d2ca2718799fea",
-        "Name": "Silver Ingot"
-      },
-      {
-        "id": "5ea1a760d8d2ca2718799fed",
-        "Name": "Gold Ingot"
-      },
-      {
-        "id": "5ea1a7b0d8d2ca2718799fef",
-        "Name": "Flour"
-      },
-      {
-        "id": "5ea1a7dfd8d2ca2718799ff1",
-        "Name": "Bread"
-      },
-      {
-        "id": "5ea1a827d8d2ca2718799ff4",
-        "Name": "Jewelry"
-      },
-      {
-        "id": "5ea1a8ded8d2ca2718799ff8",
-        "Name": "Tools"
-      }
-]
-[
-      {
-        "id": "5ea042bbebb53c2194bd25d7",
-        "Username": "test"
-      },
-      {
-        "id": "5ea2d28327887352a0d7246e",
-        "Username": "hop"
-      },
-      {
-        "id": "5ea2d2bd27887352a0d7246f",
-        "Username": "Hop"
-      },
-      {
-        "id": "5ea0418cef1ee20f301658c7",
-        "Username": "Bluue"
-      }
-]
- */
