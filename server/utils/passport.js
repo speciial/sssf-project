@@ -16,7 +16,9 @@ passport.use(
     },
     async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ Username: username });
+        const user = await UserModel.findOne({
+          Username: { $regex: new RegExp(username, "i") },
+        });
         if (user === null) {
           return done(null, false, { message: errorMessage });
         }

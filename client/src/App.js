@@ -16,6 +16,7 @@ import User from './components/User';
 import Signin from './components/SignIn';
 import Signup from './components/SignUp';
 import Chat from './components/Chat';
+import SearchUser from './components/SearchUser';
 
 import CreateMarketEntry from './components/CreateMarketEntry';
 
@@ -79,6 +80,9 @@ const App = () => {
               </li>
               <li>
                 <Link to="/sell">Sell Items</Link>
+              </li>
+              <li>
+                <SearchUser />
               </li>
             </ul>
           </nav>

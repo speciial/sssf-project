@@ -4,6 +4,7 @@ const saltRound = 12; //okayish in 2020
 
 const UserModel = require("../models/UserModel");
 const UserMaterialModel = require("../models/UserMaterialModel");
+const BuildingModel = require("../models/BuildingModel");
 
 const {
   GraphQLID,
@@ -70,11 +71,63 @@ const addBuildingToUser = {
     try {
       //TODO:
       //Get the building and remove money & material from the user
-      const user = await UserModel.findById(args.User);
+
+      const building = await BuildingModel.findById(args.Building)
+        .populate({
+          path: "CraftingRecipe",
+          populate: [{ path: "MaterialID" }],
+        })
+        .populate("MaterialID");
+      const user = await UserModel.findById(args.User).populate({
+        path: "Materials",
+        populate: [{ path: "Material" }],
+      });
+
+      //check money
+      if (user.Money < building.Cost) {
+        return new Error("Not enough money");
+      }
+
+      building.CraftingRecipe.forEach((craftingRecipe) => {
+        //check material
+        //we get the material
+        const material = user.Materials.find((material) => {
+          return (
+            material.Material._id + "" === craftingRecipe.MaterialID._id + ""
+          );
+        });
+        //if we find it
+        if (material != undefined) {
+          //check quantity
+          if (material.Quantity < craftingRecipe.Quantity) {
+            throw new Error("Missing material " + material.Material.Name);
+          }
+        } else {
+          throw new Error("Missing material " + craftingRecipe.MaterialID.Name);
+        }
+      });
+
+      //If we go here, everything ok, got all material + money
+
+      //We add the building to the user
       if (!user.Buildings) {
         user.Buildings = [];
       }
       user.Buildings.push(args.Building);
+
+      //we get his money + materials
+      user.Money -= building.Cost;
+      building.CraftingRecipe.forEach((craftingRecipe) => {
+        const material = user.Materials.find((material) => {
+          return (
+            material.Material._id + "" === craftingRecipe.MaterialID._id + ""
+          );
+        });
+        if (material != undefined) {
+          material.Quantity -= craftingRecipe.Quantity;
+        }
+      });
+      console.log(user);
       return await UserModel.findByIdAndUpdate(args.User, user, { new: true });
     } catch (e) {
       return new Error(e);

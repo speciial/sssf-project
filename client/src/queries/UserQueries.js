@@ -96,4 +96,63 @@ const userQuery = gql`
   }
 `;
 
-export { Login, addUserMutation, userQuery };
+const public_userQuery = gql`
+  query public_user($username: String!) {
+    public_user(Username: $username) {
+      id
+      Username
+      Money
+      Materials {
+        id
+        Material {
+          id
+          Name
+          Size
+          Weight
+          Picture
+          CraftingRecipe {
+            id
+            Material {
+              id
+            }
+            Quantity
+          }
+        }
+        Quantity
+      }
+      Buildings {
+        id
+        Name
+        Cost
+        Picture
+        MaterialID {
+          id
+          Name
+          Size
+          Weight
+          Picture
+          CraftingRecipe {
+            id
+            Material {
+              id
+            }
+            Quantity
+          }
+        }
+        CraftingRecipe {
+          id
+          Material {
+            id
+            Name
+            Size
+            Weight
+            Picture
+          }
+          Quantity
+        }
+      }
+    }
+  }
+`;
+
+export { Login, addUserMutation, userQuery, public_userQuery };

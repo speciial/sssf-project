@@ -74,22 +74,11 @@ const UserTabs = ({ user }) => {
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          <Tab label="Info" {...a11yProps(0)} />
           <Tab label="Materials" {...a11yProps(1)} />
           <Tab label="Buildings" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        {
-          //INFO
-        }
-        <p>First name : {user.FirstName}</p>
-        <p>Last name : {user.LastName}</p>
-        <p>Username : {user.Username}</p>
-        <p>Email : {user.Email}</p>
-        <p>Money : {user.Money}</p>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
         {
           //MATERIAL
         }
@@ -102,7 +91,7 @@ const UserTabs = ({ user }) => {
                   <p>{materialUser.Quantity}</p>
                   <img
                     className={classes.imgMaterial}
-                    src={`./assets/${materialUser.Material.Picture}.png`}
+                    src={`../assets/${materialUser.Material.Picture}.png`}
                     alt={materialUser.Material.Picture}
                   ></img>
                 </GridListTile>
@@ -111,7 +100,7 @@ const UserTabs = ({ user }) => {
           )}
         </div>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={1}>
         {
           //BUILDINGS
         }
