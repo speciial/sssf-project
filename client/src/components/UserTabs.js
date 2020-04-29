@@ -91,7 +91,7 @@ const UserTabs = ({ user }) => {
                   <p>{materialUser.Quantity}</p>
                   <img
                     className={classes.imgMaterial}
-                    src={`./assets/${materialUser.Material.Picture}.png`}
+                    src={`../assets/${materialUser.Material.Picture}.png`}
                     alt={materialUser.Material.Picture}
                   ></img>
                 </GridListTile>

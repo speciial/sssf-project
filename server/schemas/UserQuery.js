@@ -49,6 +49,7 @@ const public_user = {
       const user = await UserModel.findOne({
         Username: { $regex: new RegExp(args.Username, "i") },
       });
+
       const strippedUser = {
         Username: user.Username,
         Materials: user.Materials,
