@@ -42,13 +42,20 @@ const public_user = {
   type: userType,
   description: "Get public user by username",
   args: {
-    username: { type: new GraphQLNonNull(GraphQLString) },
+    Username: { type: new GraphQLNonNull(GraphQLString) },
   },
   resolve: async (parent, args) => {
     try {
-      //TODO:
-      // Return only wanted property
-      return await UserModel.findOne({ Username: args.username });
+      const user = await UserModel.findOne({
+        Username: { $regex: new RegExp(args.Username, "i") },
+      });
+      const strippedUser = {
+        Username: user.Username,
+        Materials: user.Materials,
+        Buildings: user.Buildings,
+        Money: user.Money,
+      };
+      return strippedUser;
     } catch (e) {
       return new Error(e);
     }

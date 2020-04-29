@@ -16,6 +16,7 @@ import User from "./components/User";
 import Signin from "./components/SignIn";
 import Signup from "./components/SignUp";
 import Chat from "./components/Chat";
+import SearchUser from "./components/SearchUser";
 
 import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://localhost:4000";
@@ -74,6 +75,9 @@ const App = () => {
               </li>
               <li>
                 <Link to="/profile">Profile</Link>
+              </li>
+              <li>
+                <SearchUser />
               </li>
             </ul>
           </nav>
