@@ -1,19 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  Grid,
-  GridList,
-  Paper,
-  GridListTile,
-  Typography,
-} from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, GridList, Paper, GridListTile } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'left',
-    backgroundColor: '#fafafa',
+    textAlign: "left",
+    backgroundColor: "#fafafa",
   },
   gridList: {
     padding: 0,

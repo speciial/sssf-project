@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const BuildingRow = (props) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [addBuilding, { data }] = useMutation(addBuildingToUser);
+  const [addBuilding] = useMutation(addBuildingToUser);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogText, setDialogText] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
