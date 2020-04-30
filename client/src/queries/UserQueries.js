@@ -92,6 +92,37 @@ const userQuery = gql`
         }
         Quantity
       }
+      Buildings {
+        id
+        Name
+        Cost
+        Picture
+        MaterialID {
+          id
+          Name
+          Size
+          Weight
+          Picture
+          CraftingRecipe {
+            id
+            Material {
+              id
+            }
+            Quantity
+          }
+        }
+        CraftingRecipe {
+          id
+          Material {
+            id
+            Name
+            Size
+            Weight
+            Picture
+          }
+          Quantity
+        }
+      }
     }
   }
 `;

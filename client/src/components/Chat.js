@@ -7,8 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   chat: {
     position: "fixed",
-    height: "520px",
-    width: "300px",
     bottom: "0px",
     right: "10px",
   },
@@ -106,7 +104,6 @@ const Chat = ({ chatName, socket }) => {
           </Button>
         </div>
       ) : null}
-
       <div onClick={togglePanel} className={classes.chatHeader}>
         {chatName}
       </div>
