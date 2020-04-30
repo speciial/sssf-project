@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -7,12 +7,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { gql } from 'apollo-boost';
-import { useQuery } from 'react-apollo';
+import { gql } from "apollo-boost";
+import { useQuery } from "react-apollo";
 
-import BuildingRow from './BuildingRow';
+import BuildingRow from "./BuildingRow";
+import { isAuth } from "../utils/Auth";
 
 const buildingQuery = gql`
   {
@@ -45,19 +46,22 @@ const Buildings = () => {
     }
     if (loading) {
       return (
-        <TableRow key={'loading'}>
+        <TableRow key={"loading"}>
           <TableCell component="th" scope="row">
             Loading
           </TableCell>
           <TableCell align="right">/</TableCell>
           <TableCell align="right">/</TableCell>
           <TableCell align="right">/</TableCell>
+          {isAuth() && <TableCell align="right">/</TableCell>}
         </TableRow>
       );
     } else {
-      return data.buildings.map((building) => {
-        return <BuildingRow key={building.id} building={building} />;
-      });
+      if (data) {
+        return data.buildings.map((building) => {
+          return <BuildingRow key={building.id} building={building} />;
+        });
+      }
     }
   };
 
@@ -70,6 +74,7 @@ const Buildings = () => {
             <TableCell align="right">Cost</TableCell>
             <TableCell align="right">Picture</TableCell>
             <TableCell align="right">Product</TableCell>
+            {isAuth() && <TableCell align="right">Buy</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>{displayBuildings()}</TableBody>

@@ -19,7 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import {
   isAuth,
   saveTokenToStorage,
-  saveUsernameToStorage,
+  saveUsernameAndIdToStorage,
 } from "../utils/Auth";
 
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -72,7 +72,7 @@ const SignIn = () => {
   }
   if (data) {
     saveTokenToStorage(data.login.Token, remember);
-    saveUsernameToStorage(data.login.Username, remember);
+    saveUsernameAndIdToStorage(data.login.Username, data.login.id, remember);
     history.push("/profile");
   }
 

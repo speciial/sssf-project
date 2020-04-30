@@ -107,8 +107,15 @@ const addBuildingToUser = {
         }
       });
 
-      //If we go here, everything ok, got all material + money
+      const b = user.Buildings.find((building) => {
+        return building + "" === args.Building + "";
+      });
+      //If the building already exist
+      if (b) {
+        return new Error("User already have the building");
+      }
 
+      //If we go here, everything ok, got all material + money
       //We add the building to the user
       if (!user.Buildings) {
         user.Buildings = [];
@@ -127,7 +134,6 @@ const addBuildingToUser = {
           material.Quantity -= craftingRecipe.Quantity;
         }
       });
-      console.log(user);
       return await UserModel.findByIdAndUpdate(args.User, user, { new: true });
     } catch (e) {
       return new Error(e);
