@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const useStyles = makeStyles((theme) => ({
   chat: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chatMessages: {
     height: "400px",
-    "overflow-x": "auto",
+    overflow: "auto",
   },
   chatHeader: {
     position: "fixed",
@@ -45,19 +45,10 @@ const Chat = ({ chatName, socket }) => {
     "guest";
   const classes = useStyles();
 
-  const scroll = () => {
-    const chat = document.getElementById("chatmessages");
-    if (chat) {
-      chat.scrollTo(0, chat.scrollHeight);
-    }
-  };
-
   useEffect(() => {
     socket.on("messages", (data) => {
       setMessages(data);
-      scroll();
     });
-    scroll();
   }, [socket, open]);
 
   const togglePanel = (e) => {
@@ -76,12 +67,12 @@ const Chat = ({ chatName, socket }) => {
     <div className={classes.chat}>
       {open ? (
         <div className={classes.chatContent}>
-          <Container id="chatmessages" className={classes.chatMessages}>
+          <ScrollToBottom id="chatmessages" className={classes.chatMessages}>
             {messages &&
               messages.map((message) => (
                 <p>{`${message.Username} : ${message.Message}`}</p>
               ))}
-          </Container>
+          </ScrollToBottom>
           <TextField
             variant="outlined"
             margin="normal"
