@@ -1,7 +1,31 @@
-import React from "react";
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, GridList, Paper, GridListTile } from '@material-ui/core';
+import { Grid, GridList, Paper, GridListTile, Button } from '@material-ui/core';
+
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
+
+const buyEntryMutation = gql`
+  mutation BuyMarketEntry($user: ID!, $marketEntry: ID!) {
+    buyMarketEntry(UserId: $user, MarketEntryId: $marketEntry) {
+      id
+      User {
+        id
+        Username
+      }
+      SuggestedPrice
+      Materials {
+        id
+        Material {
+          id
+          Name
+        }
+        Quantity
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -18,10 +42,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GlobalMarketEntry = ({ entry }) => {
-  const classes = useStyles();
+const GlobalMarketEntry = ({ entry, user }) => {
+  const [BuyMarketEntry] = useMutation(buyEntryMutation);
 
+  const classes = useStyles();
+  
   const materials = entry.Materials;
+
+  const buyEntry = async () => {
+    await BuyMarketEntry({
+      variables: { user: user.id + '', marketEntry: entry.id },
+    });
+    window.location.reload(false);
+  };
 
   const renderItems = () => {
     let items = [];
@@ -71,7 +104,14 @@ const GlobalMarketEntry = ({ entry }) => {
           </GridList>
         </Grid>
         <Grid item xs={12}>
-          Price: {entry.SuggestedPrice}
+          <GridList cols={2} cellHeight={100}>
+            <GridListTile cols={1} className={classes.gridTile}>
+              Price: {entry.SuggestedPrice}
+            </GridListTile>
+            <GridListTile cols={1} className={classes.gridTile}>
+              <Button onClick={buyEntry}>Buy</Button>
+            </GridListTile>
+          </GridList>
         </Grid>
       </Grid>
     </React.Fragment>

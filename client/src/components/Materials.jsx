@@ -25,6 +25,7 @@ const materialQuery = gql`
       CraftingRecipe {
         id
         Material {
+          id
           Name
         }
         Quantity
