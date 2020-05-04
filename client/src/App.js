@@ -13,7 +13,7 @@ import Copyright from './components/Copyright';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Home from './pages/Home';
-import Profile from './pages/Profile'
+import Profile from './pages/Profile';
 import MaterialListing from './pages/MaterialListing';
 import BuildingListing from './pages/BuildingListing';
 
@@ -35,6 +35,7 @@ const client = new ApolloClient({
 
 const App = () => {
   const socket = socketIOClient(ENDPOINT, { origins: 'localhost:*' });
+  console.log(socket);
 
   return (
     <React.Fragment>
