@@ -1,36 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Typography from '@material-ui/core/Typography';
-import MaterialLink from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
+import Typography from "@material-ui/core/Typography";
+import MaterialLink from "@material-ui/core/Link";
+import Box from "@material-ui/core/Box";
 
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
-import Materials from './components/Materials';
-import Buildings from './components/Buildings';
-import GlobalMarket from './components/GlobalMarket';
-import Profile from './components/Profile';
-import User from './components/User';
-import Signin from './components/SignIn';
-import Signup from './components/SignUp';
-import Chat from './components/Chat';
-import SearchUser from './components/SearchUser';
+import Materials from "./components/Materials";
+import Buildings from "./components/Buildings";
+import GlobalMarket from "./components/GlobalMarket";
+import Profile from "./components/Profile";
+import User from "./components/User";
+import Signin from "./components/SignIn";
+import Signup from "./components/SignUp";
+import ChatWidget from "./components/ChatWidget";
+import SearchUser from "./components/SearchUser";
 
-import CreateMarketEntry from './components/CreateMarketEntry';
+import CreateMarketEntry from "./components/CreateMarketEntry";
 
-import socketIOClient from 'socket.io-client';
-const ENDPOINT = 'http://localhost:4000';
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:4000";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3000/graphql",
   request: (operation) => {
     const token =
-      localStorage.getItem('token') || sessionStorage.getItem('token');
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     operation.setContext({
       headers: {
-        authorization: token ? `Bearer ${token}` : '',
+        authorization: token ? `Bearer ${token}` : "",
       },
     });
   },
@@ -39,18 +39,18 @@ const client = new ApolloClient({
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <MaterialLink color="inherit" href="#">
         SSSF Project
-      </MaterialLink>{' '}
+      </MaterialLink>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 };
 
 const App = () => {
-  const socket = socketIOClient(ENDPOINT, { origins: 'localhost:*' });
+  const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
 
   return (
     <ApolloProvider client={client}>
@@ -117,7 +117,7 @@ const App = () => {
           </Switch>
         </div>
         <footer>
-          {<Chat chatName={'Global Chat'} socket={socket} />}
+          <ChatWidget socket={socket} />
           <Box mt={8}>
             <Copyright />
           </Box>
