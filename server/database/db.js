@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 (async () => {
-  if (process.env.DB_URL) {
+  if (!process.env.DB_URL) {
     console.error("You need to set DB_URL in the .env file");
   } else {
     try {

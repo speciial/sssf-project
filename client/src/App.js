@@ -1,24 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import MaterialLink from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
+import { Switch, Route } from 'react-router-dom';
+
+import { Box } from '@material-ui/core';
 
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-import Materials from './components/Materials';
-import Buildings from './components/Buildings';
-import GlobalMarket from './components/GlobalMarket';
-import Profile from './components/Profile';
-import User from './components/User';
-import Signin from './components/SignIn';
-import Signup from './components/SignUp';
-import Chat from './components/Chat';
-import SearchUser from './components/SearchUser';
+import Copyright from './components/Copyright';
 
-import CreateMarketEntry from './components/CreateMarketEntry';
+// PAGES
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Home from './pages/Home';
+import Profile from './pages/Profile'
+import MaterialListing from './pages/MaterialListing';
+import BuildingListing from './pages/BuildingListing';
 
 import socketIOClient from 'socket.io-client';
 const ENDPOINT = 'http://localhost:4000';
@@ -36,94 +33,36 @@ const client = new ApolloClient({
   },
 });
 
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <MaterialLink color="inherit" href="#">
-        SSSF Project
-      </MaterialLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-};
-
 const App = () => {
   const socket = socketIOClient(ENDPOINT, { origins: 'localhost:*' });
 
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/materials">Materials</Link>
-              </li>
-              <li>
-                <Link to="/buildings">Buildings</Link>
-              </li>
-              <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <Link to="/sell">Sell Items</Link>
-              </li>
-              <li>
-                <SearchUser />
-              </li>
-            </ul>
-          </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-                  renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/materials">
-              <Materials />
-            </Route>
-            <Route path="/buildings">
-              <Buildings />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/sell">
-              <CreateMarketEntry />
-            </Route>
-            <Route path="/signin">
-              <Signin />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/user/:username">
-              <User />
-            </Route>
-            <Route path="/">
-              <GlobalMarket />
-            </Route>
-          </Switch>
-        </div>
+    <React.Fragment>
+      <ApolloProvider client={client}>
+        <Switch>
+          {' '}
+          <Route exact path="/" render={() => <Home />}></Route>
+          <Route exact path="/signin" render={() => <SignIn />}></Route>
+          <Route exact path="/signup" render={() => <SignUp />}></Route>
+          <Route exact path="/profile" render={() => <Profile />}></Route>
+          <Route
+            exact
+            path="/materials"
+            render={() => <MaterialListing />}
+          ></Route>
+          <Route
+            exact
+            path="/buildings"
+            render={() => <BuildingListing />}
+          ></Route>
+        </Switch>
         <footer>
-          {<Chat chatName={'Global Chat'} socket={socket} />}
           <Box mt={8}>
             <Copyright />
           </Box>
         </footer>
-      </Router>
-    </ApolloProvider>
+      </ApolloProvider>
+    </React.Fragment>
   );
 };
 
