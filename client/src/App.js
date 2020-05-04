@@ -36,6 +36,7 @@ const client = new ApolloClient({
 
 const App = () => {
   const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
+  console.log(socket);
 
   return (
     <React.Fragment>
