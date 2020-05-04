@@ -1,19 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Container, CssBaseline, Grid, Paper } from '@material-ui/core';
+import { Container, CssBaseline, Grid, Paper } from "@material-ui/core";
 
-import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
 
-import { userQuery } from '../queries/UserQueries';
-import { isAuth, disconnectUser } from '../utils/Auth';
+import { userQuery } from "../queries/UserQueries";
+import { isAuth, disconnectUser } from "../utils/Auth";
 
-import HeaderLogo from '../components/HeaderLogo';
-import GlobalMarket from '../components/GlobalMarket';
-import SideProfile from '../components/SideProfile';
+import HeaderLogo from "../components/HeaderLogo";
+import GlobalMarket from "../components/GlobalMarket";
+import SideProfile from "../components/SideProfile";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
+    height: "60vh",
   },
   headerPaper: {
     padding: 0,
@@ -32,9 +33,11 @@ const useStyles = makeStyles((theme) => ({
   },
   globalMarket: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
+    height: "60vh",
+    overflow: "auto",
   },
 }));
 
@@ -45,7 +48,7 @@ const Home = () => {
 
   if (!isAuth()) {
     //if not auth redirect to loginpage
-    history.push('/signin');
+    history.push("/signin");
     return null;
   }
 
@@ -53,8 +56,8 @@ const Home = () => {
 
   if (error) {
     disconnectUser();
-    history.push('/signin', {
-      messages: ['Error fetching login, please log in'],
+    history.push("/signin", {
+      messages: ["Error fetching login, please log in"],
     });
     return null;
   }

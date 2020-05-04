@@ -60,7 +60,7 @@ const App = () => {
         </Switch>
         <footer>
           <ChatWidget socket={socket} />
-          <Box mt={8}>
+          <Box mt={4}>
             <Copyright />
           </Box>
         </footer>
