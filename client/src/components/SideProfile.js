@@ -69,20 +69,6 @@ const SideProfile = ({ user }) => {
             })}
           </ul>
         </Grid>
-        <Grid item xs={5}>
-          Buildings:
-        </Grid>
-        <Grid item xs={7}>
-          <ul className={classes.list}>
-            {user.Buildings.slice(0, 5).map((building, index) => {
-              return (
-                <li key={index}>
-                  {building.Name}({building.MaterialID.Name})
-                </li>
-              );
-            })}
-          </ul>
-        </Grid>
       </Grid>
     </React.Fragment>
   );

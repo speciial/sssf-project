@@ -44,6 +44,11 @@
  *      [ ] Add error dialog to pages (where needed)
  *  [x] SignIn / SignUp
  *      [x] move to pages
+ *  [ ] FINAL TASKS
+ *      [ ] publish server on jelastic
+ *      [ ] export react app 
+ *      [ ] update readme
+ *      [ ] create ppt
  * 
  */
 import React from "react";
