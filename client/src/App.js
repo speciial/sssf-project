@@ -28,21 +28,21 @@
  *          [x] Tobacco Plantation
  *  [ ] SideProfile
  *      [ ] display product of buildings
- *      [ ] add search user search bar
- *  [ ] Buildings Listing 
+ *      [x] add search user search bar
+ *  [ ] Buildings Listing
  *      [ ] fix bug where building list won't load
  *      [ ] use picture names
  *  [ ] Chat Widget
- *      [ ] fix bug where you can click anything that's 
+ *      [ ] fix bug where you can click anything that's
  *          beneath it, even if it's hidden
- *  [ ] SearchUser
- *      [ ] display public profile 
+ *  [x] SearchUser
+ *      [x] display public profile
  *  [ ] Database
  *      [ ] fix pitcure names for buildings
- *  [ ] Error Handling 
+ *  [ ] Error Handling
  *      [ ] Add error dialog to pages (where needed)
- *  [ ] SignIn / SignUp
- *      [ ] move to pages
+ *  [x] SignIn / SignUp
+ *      [x] move to pages
  */
 import React from "react";
 
@@ -61,6 +61,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import User from "./pages/User";
 import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
@@ -103,6 +104,7 @@ const App = () => {
             path="/buildings"
             render={() => <BuildingListing />}
           ></Route>
+          <Route exact path="/user/:username" render={() => <User />}></Route>
         </Switch>
         <footer>
           <ChatWidget socket={socket} />
