@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Widget, addResponseMessage } from "react-chat-widget";
 
 import "react-chat-widget/lib/styles.css";
+import "./ChatWidget.css";
 
 function ChatWidget({ socket }) {
   const username =

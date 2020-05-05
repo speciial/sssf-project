@@ -30,7 +30,7 @@
  *      [x] display product of buildings
  *      [x] add search user search bar
  *  [ ] Buildings Listing
- *      [ ] fix bug where building list won't load 
+ *      [ ] fix bug where building list won't load
  *      [x] use picture names
  *  [ ] Chat Widget
  *      [ ] fix bug where you can click anything that's
@@ -44,7 +44,7 @@
  *      [ ] Add error dialog to pages (where needed)
  *  [x] SignIn / SignUp
  *      [x] move to pages
- * 
+ *
  */
 import React from "react";
 
@@ -56,7 +56,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import Copyright from "./components/Copyright";
-import ChatWidget from "./components/ChatWidget";
+import ChatWidget from "./components/ChatWidget/ChatWidget";
 
 // PAGES
 import SignIn from "./pages/SignIn";
