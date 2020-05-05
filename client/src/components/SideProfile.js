@@ -77,7 +77,7 @@ const SideProfile = ({ user }) => {
             {user.Buildings.slice(0, 5).map((building, index) => {
               return (
                 <li key={index}>
-                  {building.Name}({building.Material})
+                  {building.Name}({building.MaterialID.Name})
                 </li>
               );
             })}

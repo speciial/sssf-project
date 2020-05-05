@@ -26,23 +26,25 @@
  *          [x] Charcoal Kiln
  *          [ ] Jeweler
  *          [x] Tobacco Plantation
- *  [ ] SideProfile
- *      [ ] display product of buildings
+ *  [x] SideProfile
+ *      [x] display product of buildings
  *      [x] add search user search bar
  *  [ ] Buildings Listing
- *      [ ] fix bug where building list won't load
- *      [ ] use picture names
+ *      [ ] fix bug where building list won't load 
+ *      [x] use picture names
  *  [ ] Chat Widget
  *      [ ] fix bug where you can click anything that's
  *          beneath it, even if it's hidden
  *  [x] SearchUser
  *      [x] display public profile
  *  [ ] Database
- *      [ ] fix pitcure names for buildings
+ *      [x] fix pitcure names for buildings
+ *      [ ] export database (dump)
  *  [ ] Error Handling
  *      [ ] Add error dialog to pages (where needed)
  *  [x] SignIn / SignUp
  *      [x] move to pages
+ * 
  */
 import React from "react";
 

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   TableContainer,
@@ -20,12 +20,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { isAuth } from '../utils/Auth';
-import { addBuildingToUser } from '../queries/BuildingQueries';
-import { useMutation } from '@apollo/react-hooks';
-import { getUsernameAndIdFromStorage } from '../utils/Auth';
+import { isAuth } from "../utils/Auth";
+import { addBuildingToUser } from "../queries/BuildingQueries";
+import { useMutation } from "@apollo/react-hooks";
+import { getUsernameAndIdFromStorage } from "../utils/Auth";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
   },
   gridItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   headline: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
     paddingLeft: 30,
@@ -54,13 +54,13 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 120,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
 const BuildingRowNoCrafting = ({ building }) => {
-  const [dialogTitle, setDialogTitle] = React.useState('');
-  const [dialogText, setDialogText] = React.useState('');
+  const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogText, setDialogText] = React.useState("");
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const classes = useStyles();
@@ -69,8 +69,8 @@ const BuildingRowNoCrafting = ({ building }) => {
   const sell = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setDialogText('Successfully sold your building !');
-    setDialogTitle('Done');
+    setDialogText("Successfully sold your building !");
+    setDialogTitle("Done");
     setOpenDialog(true);
   };
 
@@ -93,8 +93,8 @@ const BuildingRowNoCrafting = ({ building }) => {
           <Card className={classes.card}>
             <CardMedia
               className={classes.media}
-              image="/assets/Trees.png"
-              title="Image"
+              image={"/assets/" + building.Picture + ".png"}
+              title={building.Picture}
             />
           </Card>
         </TableCell>
@@ -114,8 +114,8 @@ const BuildingRowNoCrafting = ({ building }) => {
 const BuildingRow = ({ building }) => {
   const [open, setOpen] = React.useState(false);
   const [addBuilding] = useMutation(addBuildingToUser);
-  const [dialogTitle, setDialogTitle] = React.useState('');
-  const [dialogText, setDialogText] = React.useState('');
+  const [dialogTitle, setDialogTitle] = React.useState("");
+  const [dialogText, setDialogText] = React.useState("");
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const { id } = getUsernameAndIdFromStorage();
@@ -131,13 +131,13 @@ const BuildingRow = ({ building }) => {
           Building: building.id,
         },
       });
-      setDialogText('Successfully added your new building !');
-      setDialogTitle('Done');
+      setDialogText("Successfully added your new building !");
+      setDialogTitle("Done");
       setOpenDialog(true);
     } catch (e) {
       console.log(e.message);
       setDialogText(e.message);
-      setDialogTitle('Error');
+      setDialogTitle("Error");
       setOpenDialog(true);
     }
   };
@@ -158,7 +158,7 @@ const BuildingRow = ({ building }) => {
       </Dialog>
       <TableRow
         hover
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
         onClick={() => {
           setOpen(!open);
         }}
@@ -167,8 +167,8 @@ const BuildingRow = ({ building }) => {
           <Card className={classes.card}>
             <CardMedia
               className={classes.media}
-              image="/assets/Trees.png"
-              title="Image"
+              image={"/assets/" + building.Picture + ".png"}
+              title={building.Picture}
             />
           </Card>
         </TableCell>
@@ -228,7 +228,7 @@ const BuildingTable = ({ buildings, noCrafting }) => {
             className={classes.button}
             onClick={(e) => {
               e.preventDefault();
-              history.push('/');
+              history.push("/");
             }}
           >
             Home
