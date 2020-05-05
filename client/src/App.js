@@ -65,7 +65,7 @@ import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:4000";
+const ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:11191";
 
 const client = new ApolloClient({
   uri: "http://tradinggame.jelastic.metropolia.fi/graphql",
@@ -81,7 +81,7 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
+  const socket = socketIOClient(ENDPOINT, { origins: "*:*" });
   console.log(socket);
 
   return (

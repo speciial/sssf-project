@@ -47,7 +47,7 @@ app.use("/graphql", (req, res) => {
   })(req, res);
 });
 
-socket(io, process.env.SOCKET_PORT || 4000, 20);
+socket(io, process.env.SOCKET_PORT || 4000);
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 if (process.env.NODE_ENV === "production") {
