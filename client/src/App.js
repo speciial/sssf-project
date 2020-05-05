@@ -28,12 +28,21 @@
  *          [x] Tobacco Plantation
  *  [ ] SideProfile
  *      [ ] display product of buildings
+ *      [ ] add search user search bar
  *  [ ] Buildings Listing 
  *      [ ] fix bug where building list won't load
+ *      [ ] use picture names
  *  [ ] Chat Widget
  *      [ ] fix bug where you can click anything that's 
  *          beneath it, even if it's hidden
- * 
+ *  [ ] SearchUser
+ *      [ ] display public profile 
+ *  [ ] Database
+ *      [ ] fix pitcure names for buildings
+ *  [ ] Error Handling 
+ *      [ ] Add error dialog to pages (where needed)
+ *  [ ] SignIn / SignUp
+ *      [ ] move to pages
  */
 import React from "react";
 
@@ -48,8 +57,8 @@ import Copyright from "./components/Copyright";
 import ChatWidget from "./components/ChatWidget";
 
 // PAGES
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import MaterialListing from "./pages/MaterialListing";
