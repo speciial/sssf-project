@@ -30,7 +30,7 @@
  *      [x] display product of buildings
  *      [x] add search user search bar
  *  [ ] Buildings Listing
- *      [ ] fix bug where building list won't load 
+ *      [ ] fix bug where building list won't load
  *      [x] use picture names
  *  [ ] Chat Widget
  *      [ ] fix bug where you can click anything that's
@@ -44,12 +44,7 @@
  *      [ ] Add error dialog to pages (where needed)
  *  [x] SignIn / SignUp
  *      [x] move to pages
- *  [ ] FINAL TASKS
- *      [ ] publish server on jelastic
- *      [ ] export react app 
- *      [ ] update readme
- *      [ ] create ppt
- * 
+ *
  */
 import React from "react";
 
@@ -61,7 +56,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import Copyright from "./components/Copyright";
-import ChatWidget from "./components/ChatWidget";
+import ChatWidget from "./components/ChatWidget/ChatWidget";
 
 // PAGES
 import SignIn from "./pages/SignIn";
@@ -73,10 +68,10 @@ import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:4000";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: "http://tradinggame.jelastic.metropolia.fi/graphql",
   request: (operation) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");

@@ -1,0 +1,7 @@
+.rcw-conversation-container.active {
+  display: block;
+}
+
+.rcw-conversation-container.hidden {
+  display: none;
+}
