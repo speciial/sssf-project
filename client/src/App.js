@@ -1,3 +1,40 @@
+/**
+ * TODO:
+ *  [ ] Assets
+ *      [ ] Materials
+ *          [ ] Silver Ore
+ *          [x] Iron Ore
+ *          [ ] Gold Ore
+ *          [ ] Iron Ingots
+ *          [ ] Silver Ingots
+ *      [ ] Buildings
+ *          [x] Lumberjack Hut
+ *          [ ] Sawmill
+ *          [x] Quary
+ *          [ ] Iron Mine
+ *          [ ] Silver Mine
+ *          [ ] Gold Mine
+ *          [ ] Iron Smeltery
+ *          [ ] Silver Smeltery
+ *          [ ] Gold Smeltery
+ *          [x] Farm
+ *          [x] Mill
+ *          [x] Bakery
+ *          [x] Fisher Hut
+ *          [x] Winery
+ *          [x] Blacksmith
+ *          [x] Charcoal Kiln
+ *          [ ] Jeweler
+ *          [x] Tobacco Plantation
+ *  [ ] SideProfile
+ *      [ ] display product of buildings
+ *  [ ] Buildings Listing 
+ *      [ ] fix bug where building list won't load
+ *  [ ] Chat Widget
+ *      [ ] fix bug where you can click anything that's 
+ *          beneath it, even if it's hidden
+ * 
+ */
 import React from "react";
 
 import { Switch, Route } from "react-router-dom";
