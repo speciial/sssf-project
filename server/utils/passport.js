@@ -1,7 +1,7 @@
 "use strict";
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
-const userController = require("../controllers/userController");
+const UserModel = require("../models/UserModel");
 const passportJWT = require("passport-jwt");
 const bcrypt = require("bcrypt");
 const JWTStrategy = passportJWT.Strategy;
@@ -16,7 +16,9 @@ passport.use(
     },
     async (username, password, done) => {
       try {
-        const user = await userController.getUserByUsername(username);
+        const user = await UserModel.findOne({
+          Username: { $regex: new RegExp(username, "i") },
+        });
         if (user === null) {
           return done(null, false, { message: errorMessage });
         }
@@ -24,13 +26,8 @@ passport.use(
           return done(null, false, { message: errorMessage });
         }
         //delete user.password;
-        const strippedUser = {
-          id: user.id,
-          Username: user.Username,
-          Email: user.Email,
-          FirstName: user.FirstName,
-          LastName: user.LastName,
-        };
+        const strippedUser = user.toObject();
+        delete strippedUser.password;
         return done(null, strippedUser, { message: "Logged In Successfully" });
       } catch (err) {
         return done(err);
@@ -47,20 +44,11 @@ passport.use(
     },
     async (jwtPayload, done) => {
       try {
-        const user = await userController.getUserById(jwtPayload.id);
-
+        const user = await UserModel.findById(jwtPayload._id, "-password -__v");
         if (user === undefined) {
           return done(null, false, { message: "Incorrect id." });
         }
-        //delete user.password;
-        const strippedUser = {
-          id: user.id,
-          Username: user.Username,
-          Email: user.Email,
-          FirstName: user.FirstName,
-          LastName: user.LastName,
-        };
-        return done(null, strippedUser, { message: "Logged In Successfully" });
+        return done(null, user, { message: "Logged In Successfully" });
       } catch (err) {
         return done(err);
       }

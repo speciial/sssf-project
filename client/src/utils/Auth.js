@@ -1,37 +1,52 @@
 const isAuth = () => {
-  if (getAuthUser() === null) {
-    return false;
-  } else {
+  if (
+    localStorage.getItem("token") !== null ||
+    sessionStorage.getItem("token") !== null
+  ) {
     return true;
+  } else {
+    return false;
   }
 };
 
-const getAuthUser = () => {
-  return JSON.parse(
-    localStorage.getItem("user") || sessionStorage.getItem("user")
-  );
-};
-
-const authUser = (user, token, remember) => {
+const saveTokenToStorage = (token, remember) => {
   if (remember) {
-    localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
   } else {
-    sessionStorage.setItem("user", JSON.stringify(user));
     sessionStorage.setItem("token", token);
   }
 };
 
+const saveUsernameAndIdToStorage = (userName, id, remember) => {
+  if (remember) {
+    localStorage.setItem("username", userName);
+    localStorage.setItem("id", id);
+  } else {
+    sessionStorage.setItem("username", userName);
+    localStorage.setItem("id", id);
+  }
+};
+
+const getUsernameAndIdFromStorage = () => {
+  const username =
+    sessionStorage.getItem("username") || localStorage.getItem("username");
+  const id = sessionStorage.getItem("id") || localStorage.getItem("id");
+  return { username: username, id: id };
+};
+
 const disconnectUser = () => {
-  localStorage.removeItem("user");
   localStorage.removeItem("token");
-  sessionStorage.removeItem("user");
   sessionStorage.removeItem("token");
+  localStorage.removeItem("username");
+  sessionStorage.removeItem("username");
+  localStorage.removeItem("id");
+  sessionStorage.removeItem("id");
 };
 
 module.exports = {
   isAuth,
-  getAuthUser,
-  authUser,
+  saveTokenToStorage,
   disconnectUser,
+  saveUsernameAndIdToStorage,
+  getUsernameAndIdFromStorage,
 };

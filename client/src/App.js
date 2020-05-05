@@ -1,94 +1,121 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+/**
+ * TODO:
+ *  [ ] Assets
+ *      [ ] Materials
+ *          [ ] Silver Ore
+ *          [x] Iron Ore
+ *          [ ] Gold Ore
+ *          [ ] Iron Ingots
+ *          [ ] Silver Ingots
+ *      [ ] Buildings
+ *          [x] Lumberjack Hut
+ *          [ ] Sawmill
+ *          [x] Quary
+ *          [ ] Iron Mine
+ *          [ ] Silver Mine
+ *          [ ] Gold Mine
+ *          [ ] Iron Smeltery
+ *          [ ] Silver Smeltery
+ *          [ ] Gold Smeltery
+ *          [x] Farm
+ *          [x] Mill
+ *          [x] Bakery
+ *          [x] Fisher Hut
+ *          [x] Winery
+ *          [x] Blacksmith
+ *          [x] Charcoal Kiln
+ *          [ ] Jeweler
+ *          [x] Tobacco Plantation
+ *  [x] SideProfile
+ *      [x] display product of buildings
+ *      [x] add search user search bar
+ *  [ ] Buildings Listing
+ *      [ ] fix bug where building list won't load
+ *      [x] use picture names
+ *  [ ] Chat Widget
+ *      [ ] fix bug where you can click anything that's
+ *          beneath it, even if it's hidden
+ *  [x] SearchUser
+ *      [x] display public profile
+ *  [ ] Database
+ *      [x] fix pitcure names for buildings
+ *      [ ] export database (dump)
+ *  [ ] Error Handling
+ *      [ ] Add error dialog to pages (where needed)
+ *  [x] SignIn / SignUp
+ *      [x] move to pages
+ *
+ */
+import React from "react";
 
-import Typography from '@material-ui/core/Typography';
-import MaterialLink from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
+import { Switch, Route } from "react-router-dom";
 
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { Box } from "@material-ui/core";
 
-import Materials from './components/Materials';
-import Buildings from './components/Buildings';
-import GlobalMarket from './components/GlobalMarket';
-import Users from './components/Users';
-import Signin from './components/SignIn';
-import Signup from './components/SignUp';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+
+import Copyright from "./components/Copyright";
+import ChatWidget from "./components/ChatWidget/ChatWidget";
+
+// PAGES
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import User from "./pages/User";
+import MaterialListing from "./pages/MaterialListing";
+import BuildingListing from "./pages/BuildingListing";
+
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:4000";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3000/graphql",
+  request: (operation) => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  },
 });
 
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <MaterialLink color="inherit" href="#">
-        SSSF Project
-      </MaterialLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-};
-
 const App = () => {
+  const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
+  console.log(socket);
+
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/materials">Materials</Link>
-              </li>
-              <li>
-                <Link to="/buildings">Buildings</Link>
-              </li>
-              <li>
-                <Link to="/user">Profile</Link>
-              </li>
-            </ul>
-          </nav>
-          {/* A <Switch> looks through its children <Route>s and
-                  renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/materials">
-              <Materials />
-            </Route>
-            <Route path="/buildings">
-              <Buildings />
-            </Route>
-            <Route path="/user">
-              <Users />
-            </Route>
-            <Route path="/signin">
-              <Signin />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/">
-              <GlobalMarket />
-            </Route>
-          </Switch>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Router>
-    </ApolloProvider>
+    <React.Fragment>
+      <ApolloProvider client={client}>
+        <Switch>
+          {" "}
+          <Route exact path="/" render={() => <Home />}></Route>
+          <Route exact path="/signin" render={() => <SignIn />}></Route>
+          <Route exact path="/signup" render={() => <SignUp />}></Route>
+          <Route exact path="/profile" render={() => <Profile />}></Route>
+          <Route
+            exact
+            path="/materials"
+            render={() => <MaterialListing />}
+          ></Route>
+          <Route
+            exact
+            path="/buildings"
+            render={() => <BuildingListing />}
+          ></Route>
+          <Route exact path="/user/:username" render={() => <User />}></Route>
+        </Switch>
+        <footer>
+          <ChatWidget socket={socket} />
+          <Box mt={4}>
+            <Copyright />
+          </Box>
+        </footer>
+      </ApolloProvider>
+    </React.Fragment>
   );
 };
 
