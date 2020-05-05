@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Typography,
@@ -14,25 +14,25 @@ import {
   Tab,
   Grid,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import MaterialTable from '../components/MaterialTable';
-import BuildingTable from '../components/BuildingTable';
+import MaterialTable from "../components/MaterialTable";
+import BuildingTable from "../components/BuildingTable";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: theme.palette.background.paper,
   },
   grid: {
-    textAlign: 'left',
+    textAlign: "left",
   },
   gridItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   headline: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
     paddingLeft: 30,
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 120,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
@@ -70,7 +70,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -110,7 +110,7 @@ const ProfileTabs = ({ user }) => {
               className={classes.button}
               onClick={(e) => {
                 e.preventDefault();
-                history.push('/');
+                history.push("/");
               }}
             >
               Home

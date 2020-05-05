@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Button,
@@ -14,47 +14,18 @@ import {
   MenuItem,
   InputLabel,
   TextField,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
-
-const sellMaterialsQuery = gql`
-  mutation AddMarketEntry(
-    $marketName: String!
-    $user: ID!
-    $suggestedPrice: Int!
-    $materials: [addMatRatioType]!
-  ) {
-    addMarketEntry(
-      MarketName: $marketName
-      MarketEntry: {
-        User: $user
-        SuggestedPrice: $suggestedPrice
-        Materials: $materials
-      }
-    ) {
-      User {
-        Username
-      }
-      SuggestedPrice
-      Materials {
-        Material {
-          Name
-        }
-        Quantity
-      }
-    }
-  }
-`;
+import { useMutation } from "@apollo/react-hooks";
+import { sellMaterialsQuery } from "../queries/MaterialQueries";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     minWidth: 180,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
   content: {
-    overflow: 'hidden !important',
+    overflow: "hidden !important",
   },
   materialSelect: {
     minWidth: 350,
@@ -63,15 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 const SellMaterial = ({ user }) => {
   const [open, setOpen] = React.useState(false);
-  const [material0, setMaterial0] = React.useState('');
+  const [material0, setMaterial0] = React.useState("");
   const [quantity0, setQuantity0] = React.useState(0);
-  const [material1, setMaterial1] = React.useState('');
+  const [material1, setMaterial1] = React.useState("");
   const [quantity1, setQuantity1] = React.useState(0);
-  const [material2, setMaterial2] = React.useState('');
+  const [material2, setMaterial2] = React.useState("");
   const [quantity2, setQuantity2] = React.useState(0);
-  const [material3, setMaterial3] = React.useState('');
+  const [material3, setMaterial3] = React.useState("");
   const [quantity3, setQuantity3] = React.useState(0);
-  const [material4, setMaterial4] = React.useState('');
+  const [material4, setMaterial4] = React.useState("");
   const [quantity4, setQuantity4] = React.useState(0);
   const [price, setPrice] = React.useState(0);
 
@@ -81,33 +52,33 @@ const SellMaterial = ({ user }) => {
 
   const buildMaterialArray = () => {
     const mats = [];
-    if (material0 !== '' && quantity0 !== 0) {
+    if (material0 !== "" && quantity0 !== 0) {
       mats.push({
-        MaterialID: material0.id + '',
+        MaterialID: material0.id + "",
         Quantity: parseInt(quantity0),
       });
     }
-    if (material1 !== '' && quantity1 !== 0) {
+    if (material1 !== "" && quantity1 !== 0) {
       mats.push({
-        MaterialID: material1.id + '',
+        MaterialID: material1.id + "",
         Quantity: parseInt(quantity1),
       });
     }
-    if (material2 !== '' && quantity2 !== 0) {
+    if (material2 !== "" && quantity2 !== 0) {
       mats.push({
-        MaterialID: material2.id + '',
+        MaterialID: material2.id + "",
         Quantity: parseInt(quantity2),
       });
     }
-    if (material3 !== '' && quantity3 !== 0) {
+    if (material3 !== "" && quantity3 !== 0) {
       mats.push({
-        MaterialID: material3.id + '',
+        MaterialID: material3.id + "",
         Quantity: parseInt(quantity3),
       });
     }
-    if (material4 !== '' && quantity4 !== 0) {
+    if (material4 !== "" && quantity4 !== 0) {
       mats.push({
-        MaterialID: material4.id + '',
+        MaterialID: material4.id + "",
         Quantity: parseInt(quantity4),
       });
     }
@@ -118,8 +89,8 @@ const SellMaterial = ({ user }) => {
     const materials = buildMaterialArray();
     AddMarketEntry({
       variables: {
-        marketName: 'global',
-        user: user.id + '',
+        marketName: "global",
+        user: user.id + "",
         suggestedPrice: parseInt(price),
         materials: materials,
       },

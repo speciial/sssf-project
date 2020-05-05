@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   image: {
-    width: '100%',
+    width: "100%",
     height: 250,
-    backgroundImage: 'url(assets/header_final.png)',
-    backgroundSize: 'cover',
+    backgroundImage: "url(assets/header_final.png)",
+    backgroundSize: "cover",
     backgroundPositionY: -110,
     borderRadius: 5,
   },
@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
     paddingTop: 20,
-    textAlign: 'center',
-    color: '#f0f0f0',
+    textAlign: "center",
+    color: "#f0f0f0",
   },
 }));
 

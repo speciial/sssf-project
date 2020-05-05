@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Grid,
@@ -11,54 +11,27 @@ import {
   CardContent,
   Typography,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from "@apollo/react-hooks";
+import { globalMarketQuery } from "../queries/MarketQueries";
 
-import SellMaterial from './SellMaterial';
-
-// TODO: move to separate file
-const globalMarketQuery = gql`
-  {
-    marketByName(Name: "global") {
-      id
-      Name
-      Entries {
-        id
-        User {
-          id
-          Username
-        }
-        SuggestedPrice
-        Materials {
-          id
-          Material {
-            id
-            Name
-            Picture
-          }
-          Quantity
-        }
-      }
-    }
-  }
-`;
+import SellMaterial from "./SellMaterial";
 
 const useStyle = makeStyles((theme) => ({
   headline: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
     paddingTop: 15,
   },
   price: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
   },
   card: {
-    maxWidth: 'auto',
+    maxWidth: "auto",
     padding: 0,
     margin: 0,
   },
@@ -66,7 +39,7 @@ const useStyle = makeStyles((theme) => ({
     height: 130,
   },
   content: {
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
     padding: 0,
     margin: 0,
     maxHeight: 35,
@@ -76,22 +49,22 @@ const useStyle = makeStyles((theme) => ({
     margin: 0,
   },
   divider: {
-    width: '100%',
+    width: "100%",
   },
   gridItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   gmHeadline: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
     fontSize: 40,
   },
   button: {
     minWidth: 180,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
@@ -107,7 +80,7 @@ const GlobalMarketEntry = ({ entry }) => {
             <Card className={classes.card}>
               <CardMedia
                 className={classes.media}
-                image={'/assets/' + materials[i].Material.Picture + '.png'}
+                image={"/assets/" + materials[i].Material.Picture + ".png"}
                 title={materials[i].Material.Picture}
               />
               <CardContent className={classes.content}>
@@ -154,7 +127,7 @@ const GlobalMarketEntry = ({ entry }) => {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <GridList cellHeight={'auto'} cols={5}>
+        <GridList cellHeight={"auto"} cols={5}>
           {displayItems(entry.Materials)}
         </GridList>
       </Grid>

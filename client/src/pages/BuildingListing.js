@@ -1,36 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Container, CssBaseline, Grid, Paper } from '@material-ui/core';
+import { Container, CssBaseline, Grid, Paper } from "@material-ui/core";
 
-import { gql } from 'apollo-boost';
-import { useQuery } from 'react-apollo';
+import { useQuery } from "react-apollo";
+import { buildingQuery } from "../queries/BuildingQueries";
 
-import HeaderLogo from '../components/HeaderLogo';
-import BuildingTable from '../components/BuildingTable';
-
-const buildingQuery = gql`
-  {
-    buildings {
-      id
-      Name
-      Cost
-      Picture
-      MaterialID {
-        id
-        Name
-      }
-      CraftingRecipe {
-        id
-        Material {
-          Name
-        }
-        Quantity
-      }
-    }
-  }
-`;
+import HeaderLogo from "../components/HeaderLogo";
+import BuildingTable from "../components/BuildingTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
   },

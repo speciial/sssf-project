@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Container,
@@ -10,17 +10,17 @@ import {
   Paper,
   TextField,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
 
-import { userQuery } from '../queries/UserQueries';
-import { isAuth, disconnectUser } from '../utils/Auth';
+import { userQuery } from "../queries/UserQueries";
+import { isAuth, disconnectUser } from "../utils/Auth";
 
-import HeaderLogo from '../components/HeaderLogo';
-import GlobalMarket from '../components/GlobalMarket';
-import SideProfile from '../components/SideProfile';
+import HeaderLogo from "../components/HeaderLogo";
+import GlobalMarket from "../components/GlobalMarket";
+import SideProfile from "../components/SideProfile";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
-    height: '67vh',
+    height: "67vh",
   },
   headerPaper: {
     padding: 0,
@@ -40,14 +40,14 @@ const useStyles = makeStyles((theme) => ({
   },
   globalMarket: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
-    height: '67vh',
-    overflow: 'auto',
+    height: "67vh",
+    overflow: "auto",
   },
   sideContainer: {
-    textAlign: 'left',
+    textAlign: "left",
     fontSize: 20,
   },
   textField: {
@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 80,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
 const Home = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   const classes = useStyles();
   const history = useHistory();
@@ -70,7 +70,7 @@ const Home = () => {
 
   if (!isAuth()) {
     //if not auth redirect to loginpage
-    history.push('/signin');
+    history.push("/signin");
     return null;
   }
 
@@ -78,8 +78,8 @@ const Home = () => {
 
   if (error) {
     disconnectUser();
-    history.push('/signin', {
-      messages: ['Error fetching login, please log in'],
+    history.push("/signin", {
+      messages: ["Error fetching login, please log in"],
     });
     return null;
   }

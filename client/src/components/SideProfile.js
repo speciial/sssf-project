@@ -1,24 +1,24 @@
-import React from 'react';
+import React from "react";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    textAlign: 'left',
+    textAlign: "left",
     fontSize: 20,
   },
   list: {
-    listStyleType: 'none',
+    listStyleType: "none",
     margin: 0,
     padding: 0,
   },
   button: {
     width: 120,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
@@ -37,7 +37,7 @@ const SideProfile = ({ user }) => {
             className={classes.button}
             onClick={(e) => {
               e.preventDefault();
-              history.push('/profile');
+              history.push("/profile");
             }}
           >
             Details

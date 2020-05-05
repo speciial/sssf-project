@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Container, CssBaseline, Grid, Paper, Button } from '@material-ui/core';
+import { Container, CssBaseline, Grid, Paper, Button } from "@material-ui/core";
 
-import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
 
-import { userQuery } from '../queries/UserQueries';
-import { isAuth, disconnectUser } from '../utils/Auth';
+import { userQuery } from "../queries/UserQueries";
+import { isAuth, disconnectUser } from "../utils/Auth";
 
-import HeaderLogo from '../components/HeaderLogo';
-import ProfileTabs from '../components/ProfileTabs';
+import HeaderLogo from "../components/HeaderLogo";
+import ProfileTabs from "../components/ProfileTabs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   paper: {
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.background.paper,
   },
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   button: {
-    width: '100%',
-    backgroundColor: '#e9e9e9',
+    width: "100%",
+    backgroundColor: "#e9e9e9",
   },
 }));
 
@@ -40,7 +40,7 @@ const Profile = () => {
   const { loading, error, data } = useQuery(userQuery);
 
   if (!isAuth()) {
-    history.push('/signin');
+    history.push("/signin");
     return null;
   }
 
@@ -48,8 +48,8 @@ const Profile = () => {
 
   if (error) {
     disconnectUser();
-    history.push('/signin', {
-      messages: ['Error fetching login, please log in'],
+    history.push("/signin", {
+      messages: ["Error fetching login, please log in"],
     });
     return null;
   }
@@ -57,7 +57,7 @@ const Profile = () => {
 
   const disconnect = (e) => {
     disconnectUser();
-    history.push('/signin');
+    history.push("/signin");
   };
 
   return (
