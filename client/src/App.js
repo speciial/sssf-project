@@ -32,9 +32,6 @@
  *  [ ] Buildings Listing
  *      [ ] fix bug where building list won't load
  *      [x] use picture names
- *  [ ] Chat Widget
- *      [ ] fix bug where you can click anything that's
- *          beneath it, even if it's hidden
  *  [x] SearchUser
  *      [x] display public profile
  *  [ ] Database
