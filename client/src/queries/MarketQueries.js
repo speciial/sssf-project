@@ -26,4 +26,25 @@ const globalMarketQuery = gql`
   }
 `;
 
-export { globalMarketQuery };
+const buyEntryMutation = gql`
+  mutation BuyMarketEntry($user: ID!, $marketEntry: ID!) {
+    buyMarketEntry(UserId: $user, MarketEntryId: $marketEntry) {
+      id
+      User {
+        id
+        Username
+      }
+      SuggestedPrice
+      Materials {
+        id
+        Material {
+          id
+          Name
+        }
+        Quantity
+      }
+    }
+  }
+`;
+
+export { globalMarketQuery, buyEntryMutation };

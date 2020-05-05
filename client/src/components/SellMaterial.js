@@ -85,9 +85,9 @@ const SellMaterial = ({ user }) => {
     return mats;
   };
 
-  const sell = () => {
+  const sell = async () => {
     const materials = buildMaterialArray();
-    AddMarketEntry({
+    await AddMarketEntry({
       variables: {
         marketName: "global",
         user: user.id + "",
@@ -95,6 +95,7 @@ const SellMaterial = ({ user }) => {
         materials: materials,
       },
     });
+    window.location.reload();
   };
 
   return (

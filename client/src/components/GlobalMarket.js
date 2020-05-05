@@ -13,8 +13,8 @@ import {
   Button,
 } from "@material-ui/core";
 
-import { useQuery } from "@apollo/react-hooks";
-import { globalMarketQuery } from "../queries/MarketQueries";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { globalMarketQuery, buyEntryMutation } from "../queries/MarketQueries";
 
 import SellMaterial from "./SellMaterial";
 
@@ -68,8 +68,17 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const GlobalMarketEntry = ({ entry }) => {
+const GlobalMarketEntry = ({ entry, user }) => {
+  const [BuyMarketEntry] = useMutation(buyEntryMutation);
+
   const classes = useStyle();
+
+  const buyEntry = async () => {
+    await BuyMarketEntry({
+      variables: { user: user.id + "", marketEntry: entry.id },
+    });
+    window.location.reload(false);
+  };
 
   const displayItems = (materials) => {
     let items = [];
@@ -142,7 +151,9 @@ const GlobalMarketEntry = ({ entry }) => {
         </Typography>
       </Grid>
       <Grid item xs={4}>
-        <Button className={classes.button}>Buy</Button>
+        <Button className={classes.button} onClick={buyEntry}>
+          Buy
+        </Button>
       </Grid>
       <hr className={classes.divider} />
     </React.Fragment>
@@ -175,7 +186,7 @@ const GlobalMarket = ({ user }) => {
           <SellMaterial user={user} />
         </Grid>
         {entries.map((entry) => {
-          return <GlobalMarketEntry key={entry.id} entry={entry} />;
+          return <GlobalMarketEntry key={entry.id} entry={entry} user={user} />;
         })}
       </Grid>
     </React.Fragment>
