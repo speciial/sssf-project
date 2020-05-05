@@ -68,10 +68,10 @@ import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:4000";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: "http://tradinggame.jelastic.metropolia.fi/graphql",
   request: (operation) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
