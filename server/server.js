@@ -10,6 +10,7 @@ const socket = require("./socketio/socket");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./database/db");
+const helmet = require("helmet");
 
 //Graphql
 const graphqlHTTP = require("express-graphql");
@@ -27,6 +28,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 //Middleware
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
