@@ -65,11 +65,12 @@ import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
 import socketIOClient from "socket.io-client";
-//const SOCKET_ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:11191";
-//const APOLLO_ENDPOINT = "https://tradinggame.jelastic.metropolia.fi/graphql";
+const SOCKET_ENDPOINT =
+  "http://node125210-tradinggame.jelastic.metropolia.fi:11191/";
+const APOLLO_ENDPOINT = "https://tradinggame.jelastic.metropolia.fi/graphql";
 
-const SOCKET_ENDPOINT = "http://localhost:4000";
-const APOLLO_ENDPOINT = "http://localhost:3000/graphql";
+//const SOCKET_ENDPOINT = "http://localhost:4000";
+//const APOLLO_ENDPOINT = "http://localhost:3000/graphql";
 
 const client = new ApolloClient({
   uri: APOLLO_ENDPOINT,
