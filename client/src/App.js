@@ -68,7 +68,7 @@ import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://tradinggame.jelastic.metropolia.fi:11191";
 
 const client = new ApolloClient({
-  uri: "http://tradinggame.jelastic.metropolia.fi/graphql",
+  uri: "https://tradinggame.jelastic.metropolia.fi/graphql",
   request: (operation) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
