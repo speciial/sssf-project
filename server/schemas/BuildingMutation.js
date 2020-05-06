@@ -25,8 +25,9 @@ const addBuilding = {
       type: new GraphQLNonNull(new GraphQLList(addMatRatioType)),
     },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const updatedCR = await Promise.all(
         args.CraftingRecipe.map(async (matRaio) => {
           const newMatRatio = new MaterialRatioModel(matRaio);
@@ -47,8 +48,9 @@ const deleteBuilding = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const delBuilding = await BuildingModel.findByIdAndDelete(args.id);
       await delBuilding.CraftingRecipe.map(async (matRatio) => {
         await MaterialRatioModel.findByIdAndDelete(matRatio);
@@ -72,8 +74,9 @@ const modifyBuilding = {
       type: new GraphQLNonNull(new GraphQLList(modifyMatRatioType)),
     },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const oldBuilding = await BuildingModel.findById(args.id);
       await oldBuilding.CraftingRecipe.map(async (matRaio) => {
         await MaterialRatioModel.findByIdAndDelete(matRaio);
