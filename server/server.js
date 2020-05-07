@@ -11,7 +11,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./database/db");
 const helmet = require("helmet");
-const path = require("path");
 
 //Graphql
 const graphqlHTTP = require("express-graphql");
@@ -34,11 +33,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use("/", cors());
-app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("/", (req, res) => {
-  //res.status(200).send("<h1>Welcome to the Game</h1>");
-  res.sendFile(path.join(__dirname, "../client/build", "../client/index.html"));
+  res.status(200).send("<h1>Welcome to the Game</h1>");
 });
 
 app.use("/material", MaterialRoute);
