@@ -20,6 +20,32 @@ const materialQuery = gql`
   }
 `;
 
+const modifyMaterialMutation = gql`
+  mutation ModifyMaterial(
+    $id: ID!
+    $name: String!
+    $size: Int!
+    $weight: Int!
+    $picture: String!
+    $craftingRecipe: [modifyMatRatioType]!
+  ) {
+    modifyMaterial(
+      id: $id
+      Name: $name
+      Size: $size
+      Weight: $weight
+      Picture: $picture
+      CraftingRecipe: $craftingRecipe
+    ) {
+      id
+      Name
+      Size
+      Weight
+      Picture
+    }
+  }
+`;
+
 const sellMaterialsQuery = gql`
   mutation AddMarketEntry(
     $marketName: String!
@@ -49,4 +75,4 @@ const sellMaterialsQuery = gql`
   }
 `;
 
-export { materialQuery, sellMaterialsQuery };
+export { materialQuery, modifyMaterialMutation, sellMaterialsQuery };

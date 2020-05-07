@@ -18,6 +18,8 @@ import {
   Button,
 } from "@material-ui/core";
 
+import EditMaterial from "./EditMaterial";
+
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 80,
@@ -99,9 +101,12 @@ const MaterialRow = ({ material }) => {
         <TableCell>{material.Name}</TableCell>
         <TableCell>{material.Weight}</TableCell>
         <TableCell>{material.Size}</TableCell>
+        <TableCell>
+          <EditMaterial material={material} />
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Grid container>
               <Grid item xs={1} />
@@ -167,6 +172,7 @@ const MaterialTable = ({ materials, noCrafting }) => {
               </TableCell>
               <TableCell>Weight</TableCell>
               <TableCell>Size</TableCell>
+              <TableCell>Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
