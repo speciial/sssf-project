@@ -10,6 +10,8 @@ const socket = require("./socketio/socket");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./database/db");
+const helmet = require("helmet");
+const path = require("path");
 
 //Graphql
 const graphqlHTTP = require("express-graphql");
@@ -27,13 +29,16 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 //Middleware
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use("/", cors());
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("/", (req, res) => {
-  res.status(200).send("<h1>Welcome to the Game</h1>");
+  //res.status(200).send("<h1>Welcome to the Game</h1>");
+  res.sendFile(path.join(__dirname, "../client/build", "../client/index.html"));
 });
 
 app.use("/material", MaterialRoute);
@@ -47,7 +52,7 @@ app.use("/graphql", (req, res) => {
   })(req, res);
 });
 
-socket(io, process.env.SOCKET_PORT || 4000, 20);
+socket(io, process.env.SOCKET_PORT || 4000);
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 if (process.env.NODE_ENV === "production") {

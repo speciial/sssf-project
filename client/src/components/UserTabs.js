@@ -1,127 +1,3 @@
-/*import React, { useState } from "react";
-
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-const useStyles = makeStyles((theme) => ({
-  simpleTabs: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-  grid: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
-  },
-  imgMaterial: {
-    height: "50px",
-    width: "50px",
-  },
-}));
-
-function a11yProps(index) {
-  return {
-    id: `tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const UserTabs = ({ user }) => {
-  const classes = useStyles();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <div className={classes.simpleTabs}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
-          <Tab label="Materials" {...a11yProps(1)} />
-          <Tab label="Buildings" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        {
-          //MATERIAL
-        }
-        <div className={classes.grid}>
-          {user.Materials && (
-            <GridList cellHeight={160} cols={1}>
-              {user.Materials.map((materialUser) => (
-                <GridListTile cols={1} key={materialUser.id}>
-                  <p>{materialUser.Material.Name}</p>
-                  <p>{materialUser.Quantity}</p>
-                  <img
-                    className={classes.imgMaterial}
-                    src={`../assets/${materialUser.Material.Picture}.png`}
-                    alt={materialUser.Material.Picture}
-                  ></img>
-                </GridListTile>
-              ))}
-            </GridList>
-          )}
-        </div>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {
-          //BUILDINGS
-        }
-        <div className={classes.grid}>
-          {user.Buildings && (
-            <GridList cellHeight={160} cols={1}>
-              {user.Buildings.map((building) => (
-                <GridListTile cols={1} key={building.id}>
-                  <p>{building.Name}</p>
-                </GridListTile>
-              ))}
-            </GridList>
-          )}
-        </div>
-      </TabPanel>
-    </div>
-  );
-};
-
-export default UserTabs;*/
-
 import React from "react";
 
 import PropTypes from "prop-types";
@@ -213,11 +89,8 @@ const ProfileTabs = ({ username }) => {
     },
   });
 
-  console.log(username);
-
   let user;
   React.useEffect(() => {
-    console.log("use effect");
     getUser();
   }, [username, getUser]);
 
@@ -243,7 +116,6 @@ const ProfileTabs = ({ username }) => {
   if (data) {
     user = data.public_user;
   } else {
-    console.log(error);
     return (
       <div>
         User not found{" "}

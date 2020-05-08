@@ -26,24 +26,11 @@
  *          [x] Charcoal Kiln
  *          [ ] Jeweler
  *          [x] Tobacco Plantation
- *  [x] SideProfile
- *      [x] display product of buildings
- *      [x] add search user search bar
  *  [ ] Buildings Listing
  *      [ ] fix bug where building list won't load
  *      [x] use picture names
- *  [ ] Chat Widget
- *      [ ] fix bug where you can click anything that's
- *          beneath it, even if it's hidden
- *  [x] SearchUser
- *      [x] display public profile
- *  [ ] Database
- *      [x] fix pitcure names for buildings
- *      [ ] export database (dump)
  *  [ ] Error Handling
  *      [ ] Add error dialog to pages (where needed)
- *  [x] SignIn / SignUp
- *      [x] move to pages
  *
  */
 import React from "react";
@@ -68,10 +55,14 @@ import MaterialListing from "./pages/MaterialListing";
 import BuildingListing from "./pages/BuildingListing";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:4000";
+const SOCKET_ENDPOINT = "https://tradinggame.valentin-baud.fr:4000";
+const APOLLO_ENDPOINT = "https://tradinggame.jelastic.metropolia.fi/graphql";
+
+//const SOCKET_ENDPOINT = "http://localhost:4000";
+//const APOLLO_ENDPOINT = "http://localhost:3000/graphql";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: APOLLO_ENDPOINT,
   request: (operation) => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -84,7 +75,10 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const socket = socketIOClient(ENDPOINT, { origins: "localhost:*" });
+  const socket = socketIOClient(SOCKET_ENDPOINT, {
+    origins: "*:*",
+    secure: true,
+  });
   console.log(socket);
 
   return (

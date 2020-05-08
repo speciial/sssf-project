@@ -2,6 +2,8 @@
 const bcrypt = require("bcrypt");
 const saltRound = 12; //okayish in 2020
 
+const Authcontroller = require("../controllers/AuthController");
+
 const UserModel = require("../models/UserModel");
 const UserMaterialModel = require("../models/UserMaterialModel");
 const BuildingModel = require("../models/BuildingModel");
@@ -23,8 +25,9 @@ const updateUserMaterial = {
     Material: { type: GraphQLID },
     Quantity: { type: GraphQLInt },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       return await UserMaterialModel.findByIdAndUpdate(args.id, args, {
         new: true,
       });
@@ -42,8 +45,9 @@ const addMaterialToUser = {
     Material: { type: new GraphQLNonNull(GraphQLID) },
     Quantity: { type: new GraphQLNonNull(GraphQLInt) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const newUserMaterial = await UserMaterialModel.create({
         Material: args.Material,
         Quantity: args.Quantity,
@@ -67,10 +71,9 @@ const addBuildingToUser = {
     User: { type: new GraphQLNonNull(GraphQLID) },
     Building: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
-      //TODO:
-      //Get the building and remove money & material from the user
+      await Authcontroller.checkAuth(req, res);
 
       const building = await BuildingModel.findById(args.Building)
         .populate({
@@ -151,8 +154,9 @@ const addUser = {
     Email: { type: new GraphQLNonNull(GraphQLString) },
     Password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       args.Password = await bcrypt.hash(args.Password, saltRound);
       const newUser = await UserModel.create(args);
       await delete newUser.Password;
@@ -175,8 +179,9 @@ const modifyUser = {
     Password: { type: GraphQLString },
     Money: { type: GraphQLInt },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       return await UserModel.findByIdAndUpdate(args.id, args, { new: true });
     } catch (e) {
       return new Error(e);
@@ -190,8 +195,9 @@ const deleteUser = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       return await UserModel.findByIdAndDelete(args.id);
     } catch (e) {
       return new Error(e);

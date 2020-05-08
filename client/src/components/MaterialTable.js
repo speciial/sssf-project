@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   TableContainer,
@@ -16,7 +16,9 @@ import {
   CardMedia,
   Collapse,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
+
+import EditMaterial from "./EditMaterial";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -32,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
   },
   gridItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   headline: {
-    textAlign: 'left',
+    textAlign: "left",
     padding: 0,
     margin: 0,
     paddingLeft: 30,
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: 120,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: "#e9e9e9",
   },
 }));
 
@@ -59,7 +61,7 @@ const MaterialRowNoCrafting = ({ material }) => {
           <Card className={classes.card}>
             <CardMedia
               className={classes.media}
-              image={'/assets/' + material.Material.Picture + '.png'}
+              image={"/assets/" + material.Material.Picture + ".png"}
               title={material.Material.Picture}
             />
           </Card>
@@ -82,7 +84,7 @@ const MaterialRow = ({ material }) => {
     <React.Fragment>
       <TableRow
         hover
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
         onClick={() => {
           setOpen(!open);
         }}
@@ -91,7 +93,7 @@ const MaterialRow = ({ material }) => {
           <Card className={classes.card}>
             <CardMedia
               className={classes.media}
-              image={'/assets/' + material.Picture + '.png'}
+              image={"/assets/" + material.Picture + ".png"}
               title={material.Picture}
             />
           </Card>
@@ -99,9 +101,12 @@ const MaterialRow = ({ material }) => {
         <TableCell>{material.Name}</TableCell>
         <TableCell>{material.Weight}</TableCell>
         <TableCell>{material.Size}</TableCell>
+        <TableCell>
+          <EditMaterial material={material} />
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Grid container>
               <Grid item xs={1} />
@@ -167,6 +172,7 @@ const MaterialTable = ({ materials, noCrafting }) => {
               </TableCell>
               <TableCell>Weight</TableCell>
               <TableCell>Size</TableCell>
+              <TableCell>Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -190,7 +196,7 @@ const MaterialTable = ({ materials, noCrafting }) => {
             className={classes.button}
             onClick={(e) => {
               e.preventDefault();
-              history.push('/');
+              history.push("/");
             }}
           >
             Home

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const {
   GraphQLID,
@@ -6,22 +6,24 @@ const {
   GraphQLList,
   GraphQLNonNull,
   GraphQLInt,
-} = require('graphql');
+} = require("graphql");
 
 const {
   marketType,
   marketEntryType,
   addMarketEntryType,
   addMarketOfferType,
-} = require('./MarketType');
+} = require("./MarketType");
 
-const MarketModel = require('../models/MarketModel');
-const MarketEntryModel = require('../models/MarketEntryModel');
+const Authcontroller = require("../controllers/AuthController");
 
-const MaterialRatioModel = require('../models/MaterialRatioModel');
+const MarketModel = require("../models/MarketModel");
+const MarketEntryModel = require("../models/MarketEntryModel");
 
-const UserModel = require('../models/UserModel');
-const UserMaterialModel = require('../models/UserMaterialModel');
+const MaterialRatioModel = require("../models/MaterialRatioModel");
+
+const UserModel = require("../models/UserModel");
+const UserMaterialModel = require("../models/UserMaterialModel");
 
 /**
  * NOTE:
@@ -32,8 +34,9 @@ const addMarket = {
   args: {
     Name: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       return await MarketModel.create(args);
     } catch (error) {
       return new Error(error);
@@ -47,10 +50,11 @@ const addMarketEntry = {
     MarketName: { type: new GraphQLNonNull(GraphQLString) },
     MarketEntry: { type: new GraphQLNonNull(addMarketEntryType) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const user = await UserModel.findById(args.MarketEntry.User).populate(
-        'Materials'
+        "Materials"
       );
 
       const hasMaterial = updateUserMaterial(
@@ -84,7 +88,7 @@ const addMarketEntry = {
 
         return newEntry;
       } else {
-        return new Error('User does not have the requiered materials');
+        return new Error("User does not have the requiered materials");
       }
       return null;
     } catch (error) {
@@ -98,11 +102,12 @@ const deleteMarketEntry = {
   args: {
     MarketEntryId: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const entry = await MarketEntryModel.findById(args.MarketEntryId)
-        .populate('User')
-        .populate('Materials');
+        .populate("User")
+        .populate("Materials");
       const user = entry.User;
 
       // add money back to user
@@ -125,7 +130,7 @@ const deleteMarketEntry = {
           let found = false;
 
           newUserMaterial.forEach((bMat) => {
-            if (eMat.MaterialID + '' == bMat.Material + '') {
+            if (eMat.MaterialID + "" == bMat.Material + "") {
               found = true;
               bMat.Quantity += eMat.Quantity;
             }
@@ -172,14 +177,15 @@ const buyMarketEntry = {
     UserId: { type: new GraphQLNonNull(GraphQLID) },
     MarketEntryId: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const buyingUser = await UserModel.findById(args.UserId).populate(
-        'Materials'
+        "Materials"
       );
       const entry = await MarketEntryModel.findById(args.MarketEntryId)
-        .populate('User')
-        .populate('Materials');
+        .populate("User")
+        .populate("Materials");
       const sellingUser = entry.User;
 
       if (buyingUser.Money >= entry.SuggestedPrice) {
@@ -206,7 +212,7 @@ const buyMarketEntry = {
             let found = false;
 
             newUserMaterial.forEach((bMat) => {
-              if (eMat.MaterialID + '' == bMat.Material + '') {
+              if (eMat.MaterialID + "" == bMat.Material + "") {
                 found = true;
                 bMat.Quantity += eMat.Quantity;
               }
@@ -246,7 +252,7 @@ const buyMarketEntry = {
         });
         return delEntry;
       } else {
-        return new Error('Insufficent Founds!');
+        return new Error("Insufficent Founds!");
       }
     } catch (error) {
       return new Error(error);

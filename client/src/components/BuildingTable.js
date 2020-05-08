@@ -27,6 +27,8 @@ import { addBuildingToUser } from "../queries/BuildingQueries";
 import { useMutation } from "@apollo/react-hooks";
 import { getUsernameAndIdFromStorage } from "../utils/Auth";
 
+import EditBuilding from "./EditBuilding";
+
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 80,
@@ -102,7 +104,7 @@ const BuildingRowNoCrafting = ({ building }) => {
         <TableCell>{building.Cost}</TableCell>
         <TableCell>{building.MaterialID.Name}</TableCell>
         <TableCell>
-          <Button className={classes.button} onClick={sell}>
+          <Button disabled={true} className={classes.button} onClick={sell}>
             Sell
           </Button>
         </TableCell>
@@ -182,6 +184,11 @@ const BuildingRow = ({ building }) => {
             </Button>
           </TableCell>
         )}
+        {isAuth() && (
+          <TableCell>
+            <EditBuilding building={building} />
+          </TableCell>
+        )}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
@@ -217,6 +224,63 @@ const BuildingTable = ({ buildings, noCrafting }) => {
   const classes = useStyles();
   const history = useHistory();
 
+  const pickDisplay = () => {
+    if (noCrafting) {
+      return (
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell component="th" scope="row">
+                Name
+              </TableCell>
+              <TableCell>Cost</TableCell>
+              <TableCell>Product</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {buildings.map((building, index) => {
+              return (
+                <BuildingRowNoCrafting
+                  key={index}
+                  building={building}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+      );
+    } else {
+      return (
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell component="th" scope="row">
+                Name
+              </TableCell>
+              <TableCell>Cost</TableCell>
+              <TableCell>Product</TableCell>
+              <TableCell>Action</TableCell>
+              <TableCell>Edit</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {buildings.map((building, index) => {
+              return (
+                <BuildingRow
+                  key={index}
+                  building={building}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <Grid container>
@@ -235,32 +299,7 @@ const BuildingTable = ({ buildings, noCrafting }) => {
           </Button>
         </Grid>
       </Grid>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell component="th" scope="row">
-                Name
-              </TableCell>
-              <TableCell>Cost</TableCell>
-              <TableCell>Product</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {buildings.map((building, index) => {
-              if (noCrafting) {
-                return (
-                  <BuildingRowNoCrafting key={index} building={building} />
-                );
-              } else {
-                return <BuildingRow key={index} building={building} />;
-              }
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <TableContainer>{pickDisplay()}</TableContainer>
     </React.Fragment>
   );
 };

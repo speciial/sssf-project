@@ -8,6 +8,8 @@ const {
   GraphQLInt,
 } = require("graphql");
 
+const Authcontroller = require("../controllers/AuthController");
+
 const MaterialModel = require("../models/MaterialModel");
 const MaterialRatioModel = require("../models/MaterialRatioModel");
 
@@ -28,8 +30,9 @@ const addMaterial = {
       type: new GraphQLNonNull(new GraphQLList(addMatRatioType)),
     },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const updatedCR = await Promise.all(
         args.CraftingRecipe.map(async (matRaio) => {
           const newMatRatio = new MaterialRatioModel(matRaio);
@@ -50,8 +53,9 @@ const deleteMaterial = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const delMaterial = await MaterialModel.findByIdAndDelete(args.id);
       await delMaterial.CraftingRecipe.map(async (matRaio) => {
         await MaterialRatioModel.findByIdAndDelete(matRaio);
@@ -75,8 +79,9 @@ const modifyMaterial = {
       type: new GraphQLNonNull(new GraphQLList(modifyMatRatioType)),
     },
   },
-  resolve: async (parent, args) => {
+  resolve: async (parent, args, { req, res }) => {
     try {
+      await Authcontroller.checkAuth(req, res);
       const oldMaterial = await MaterialModel.findById(args.id);
       await oldMaterial.CraftingRecipe.map(async (matRaio) => {
         await MaterialRatioModel.findByIdAndDelete(matRaio);
