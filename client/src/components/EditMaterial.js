@@ -196,7 +196,7 @@ const EditMaterial = ({ material }) => {
               setOpen(false);
             }}
           >
-            Cancle
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

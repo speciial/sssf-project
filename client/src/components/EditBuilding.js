@@ -72,7 +72,7 @@ const EditBuilding = ({ building }) => {
       variables: {
         id: building.id + "",
         name: name,
-        cost: cost,
+        cost: parseInt(cost),
         picture: picture,
         materialID: building.MaterialID.id,
         craftingRecipe: materials,
@@ -178,7 +178,7 @@ const EditBuilding = ({ building }) => {
               setOpen(false);
             }}
           >
-            Cancle
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
