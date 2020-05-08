@@ -15,6 +15,8 @@ const {
   addMarketOfferType,
 } = require("./MarketType");
 
+const Authcontroller = require("../controllers/AuthController");
+
 const MarketModel = require("../models/MarketModel");
 const MarketEntryModel = require("../models/MarketEntryModel");
 

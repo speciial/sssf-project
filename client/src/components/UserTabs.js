@@ -89,11 +89,8 @@ const ProfileTabs = ({ username }) => {
     },
   });
 
-  console.log(username);
-
   let user;
   React.useEffect(() => {
-    console.log("use effect");
     getUser();
   }, [username, getUser]);
 
@@ -119,7 +116,6 @@ const ProfileTabs = ({ username }) => {
   if (data) {
     user = data.public_user;
   } else {
-    console.log(error);
     return (
       <div>
         User not found{" "}

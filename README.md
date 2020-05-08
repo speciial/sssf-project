@@ -2,9 +2,26 @@
 
 This is the final project repository for the Server-Side Scripting Frameworks course at the Metropolia UAS.
 
-## Building the App
+## Try out online
+
+- [App Link](https://tradinggame.jelastic.metropolia.fi/)
+- [Graphiql Link](https://tradinggame.jelastic.metropolia.fi/graphql)
+
+## Building the App locally
 
 Clone the repository into a folder on your machine
+
+### Local mongoDB
+
+1. We included a version of our mongoDB as dumb in the folder dbdump. You can set up a mongod instance as described in this tutorial [Link](https://docs.mongodb.com/manual/tutorial/enable-authentication/).
+
+2. Just like the "test" database in the example, create a db called _game_ with a _game_ user and "readWrite" access.
+
+3. Now in a terminal, navigate to the dbdump folder and run this command after replacing HOST, USER and PASSWORD with your info. Make sure your mongod instance is still running.
+
+```
+mongorestore -h HOST -u USER -p PASSWORD -d game ./
+```
 
 ### Server
 
@@ -15,13 +32,13 @@ cd server
 npm install
 ```
 
-2. Create a .env file inside the server directory with the following contents
+2. Create a .env file inside the server directory with the following contents. Replace the placeholder with you info.
 
 ```
 DB_URL=[URL_TO_MONGODB]
 JWT=[JWT_STRING]
-PORT=[port]
-SOCKET_PORT=[Socket io port]
+PORT=[PORT]
+SOCKET_PORT=[SOCKET_IO_PORT]
 ```
 
 3. Now in the terminal run the server like this
@@ -30,34 +47,8 @@ SOCKET_PORT=[Socket io port]
 npm start
 ```
 
-4. To later see some things in the client you can add some materials by going to your browser and opening http://localhost:3000/graphql. Then simply paste the following mutation and run it.
-
-```
-mutation{
-  addMaterial(
-    Name: "Trees",
-    Size: 10,
-    Weight:10,
-    Picture: "Trees",
-  	CraftingRecipe: []
-  ) {
-    id
-    Name
-    Size
-    Weight
-    Picture
-    CraftingRecipe{
-      id
-      Material {
-        Name
-      }
-      Quantity
-    }
-  }
-}
-```
-
-5. The documentation of every query and mutation can be found at http://localhost:3000/graphql
+4. If you want to see the documentation for our GraphQL models, you can now open a browser navigate to localhost:\[PORT\]/graphiql.
+   > Note, that some of our mutations are locked by authentication. If you want to access these, you will have to use Postman and generate an authentication token.
 
 ### Client
 
@@ -72,4 +63,11 @@ npm install
 
 ```bash
 npm start
+```
+
+3. A browser window should open automatically. You can now login and test the app locally. If you are using the local mongoDB, you can try out a user with these credentials ( _he has a bunch of money and materials ;)_ ):
+
+```
+username: chad
+password: root
 ```

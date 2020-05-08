@@ -8,6 +8,8 @@ const {
   GraphQLInt,
 } = require("graphql");
 
+const Authcontroller = require("../controllers/AuthController");
+
 const MaterialModel = require("../models/MaterialModel");
 const MaterialRatioModel = require("../models/MaterialRatioModel");
 
